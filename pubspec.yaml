@@ -1,0 +1,37 @@
+name: jenkins_board
+description: Jenkins desktop.
+publish_to: 'none' 
+
+version: 0.1.0+1
+
+environment:
+  sdk: ">=2.15.1 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  flutter_riverpod: ^1.0.3
+  go_router: ^2.5.7
+  state_notifier: ^0.7.1
+  freezed_annotation: ^1.1.0
+  hive: ^2.0.5
+  hive_flutter: ^1.1.0
+  dio: ^4.0.4
+  url_launcher: ^6.0.17
+  line_icons: ^2.0.1
+
+dev_dependencies:
+  freezed: ^1.0.1
+  json_serializable: ^6.1.3
+  build_runner: any
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^1.0.0
+  hive_generator: ^1.1.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/

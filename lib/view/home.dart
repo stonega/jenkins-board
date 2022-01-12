@@ -4,6 +4,7 @@ import 'package:jenkins_board/provider/jobs_provider.dart';
 import 'package:jenkins_board/utils/extensions.dart';
 import 'package:jenkins_board/view/settings/choose_jobs.dart';
 import 'package:jenkins_board/view/settings/settings.dart';
+import 'package:jenkins_board/widgets/job_panel.dart';
 import 'package:line_icons/line_icons.dart';
 
 enum SettingType { chooseJobs, settings, undefined }
@@ -65,50 +66,42 @@ class HomeView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final jobs = ref.watch(jobsProvider);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: Row(
-          children: [
-            Text('My Jobs', style: context.headline4),
-            const SizedBox(
-              width: 20,
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30, 30, 30, 20),
+            child: Row(
+              children: [
+                Text('My Jobs', style: context.headline4),
+                const SizedBox(
+                  width: 20,
+                ),
+                IconButton(
+                  onPressed: () {
+                    onChange(SettingType.chooseJobs);
+                  },
+                  splashRadius: 20,
+                  icon: const Icon(LineIcons.plusCircle),
+                  tooltip: 'Add job',
+                ),
+                IconButton(
+                  onPressed: ref.read(jobsProvider.notifier).refresh,
+                  splashRadius: 20,
+                  icon: const Icon(LineIcons.alternateRedo),
+                  tooltip: 'Refresh',
+                ),
+              ],
             ),
-            IconButton(
-              onPressed: () {
-                onChange(SettingType.chooseJobs);
-              },
-              splashRadius: 20,
-              icon: const Icon(LineIcons.plusCircle),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+            child: Wrap(
+              spacing: 20,
+              runSpacing: 20,
+              children: [for (var j in jobs) JobPanel(job: j)],
             ),
-          ],
-        ),
-        elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(LineIcons.cogs),
-          )
+          ),
         ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-        child: Wrap(
-          spacing: 20,
-          children: [
-            for (var j in jobs)
-              Container(
-                height: 200,
-                width: 300,
-                decoration: BoxDecoration(
-                    color: Colors.amberAccent,
-                    borderRadius: BorderRadius.circular(10)),
-                padding: const EdgeInsets.all(10),
-                child: Text(j.name,
-                    style:
-                        context.headline6.copyWith(color: context.accentColor)),
-              )
-          ],
-        ),
       ),
     );
   }

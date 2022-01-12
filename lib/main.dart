@@ -19,8 +19,8 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appState = ref.watch(appStateProvider);
-
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: 'Jenkins board',
       theme: appState.themeData,
       themeMode: appState.themeMode,

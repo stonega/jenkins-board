@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:jenkins_board/api/api_service.dart';
+import 'package:jenkins_board/model/branch.dart';
 import 'package:jenkins_board/model/job_group.dart';
 import 'package:jenkins_board/storage/hive_box.dart';
 import 'package:jenkins_board/model/job.dart';
@@ -30,5 +31,19 @@ class JenkinsApi {
       }
     }
     return jobGroups;
+  }
+
+  static Future<List<Branch>> getJobDetail(Job job) async {
+    final res = await ApiService.get('${job.url}api/json');
+    List<Branch> branches = [];
+    if (res['jobs'] != null) {
+      branches = [for (var j in res['jobs']) Branch.fromMap(j)];
+    }
+    return branches;
+  }
+
+  static Future<void> newBuild(Branch branch,
+      {Map<String, dynamic>? params}) async {
+    final res = await ApiService.post(branch.url, params);
   }
 }

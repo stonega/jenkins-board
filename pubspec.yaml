@@ -20,6 +20,7 @@ dependencies:
   dio: ^4.0.4
   url_launcher: ^6.0.17
   line_icons: ^2.0.1
+  fluttertoast: ^8.0.8
 
 dev_dependencies:
   freezed: ^1.0.1

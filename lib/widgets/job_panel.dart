@@ -67,7 +67,7 @@ class JobPanel extends ConsumerWidget {
                               color: context.accentColor,
                             ),
                             tooltip: 'Run',
-                            onPressed: () => _showToast(context),
+                            onPressed: () => _newBuild(context, data[index]),
                           ),
                         ],
                       );
@@ -80,12 +80,11 @@ class JobPanel extends ConsumerWidget {
     );
   }
 
-  Future _newBuild(Branch branch) async {
+  Future _newBuild(BuildContext context, Branch branch) async {
     try {
       await JenkinsApi.newBuild(branch);
-    } catch (e) {
-
-    }
+      _showToast(context);
+    } catch (e) {}
   }
 
   void _showToast(BuildContext context) {

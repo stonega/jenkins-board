@@ -1,9 +1,12 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
 enum BuildStatus {
   aborted,
+  aborted_anime,
   notbuilt,
   blue,
   red,

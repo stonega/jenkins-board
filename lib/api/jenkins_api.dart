@@ -44,6 +44,7 @@ class JenkinsApi {
 
   static Future<void> newBuild(Branch branch,
       {Map<String, dynamic>? params}) async {
-    final res = await ApiService.post(branch.url, params);
+    final res = await ApiService.postJson('${branch.url}build', params);
+    print(res.body);
   }
 }

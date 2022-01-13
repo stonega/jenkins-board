@@ -37,7 +37,7 @@ class HiveBox {
   }
 
   static List<Job> getJobs() {
-    final jobs = _box.get(jobsKey);
+    final jobs = _box.get(jobsKey, defaultValue: []);
     return [for (var j in jobs) Job.fromJson(Map<String, dynamic>.from(j))];
   }
 }

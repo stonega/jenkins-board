@@ -29,6 +29,7 @@ class ApiService {
 
   // error handle
   static void handleError(DioError e) {
+      print(e.toString());
     switch (e.type) {
       case DioErrorType.connectTimeout:
       case DioErrorType.sendTimeout:

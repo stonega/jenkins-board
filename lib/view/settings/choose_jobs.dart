@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jenkins_board/api/jenkins_api.dart';
 import 'package:jenkins_board/model/job_group.dart';
 import 'package:jenkins_board/provider/jobs_provider.dart';
 import 'package:jenkins_board/utils/extensions.dart';
 import 'package:jenkins_board/widgets/select_job.dart';
 import 'package:jenkins_board/widgets/setting_wrapper.dart';
+import 'package:jenkins_board/widgets/toast_widget.dart';
 
 class ChooseJobsPage extends ConsumerWidget {
   final VoidCallback onClose;
@@ -74,4 +76,5 @@ class ChooseJobsPage extends ConsumerWidget {
       ),
     );
   }
+
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jenkins_board/api/jenkins_api.dart';
 import 'package:jenkins_board/model/branch.dart';
 import 'package:jenkins_board/model/job.dart';
 import 'package:jenkins_board/utils/extensions.dart';
+import 'package:jenkins_board/widgets/toast_widget.dart';
 import 'package:line_icons/line_icons.dart';
 
 class JobPanel extends ConsumerWidget {
@@ -65,7 +67,7 @@ class JobPanel extends ConsumerWidget {
                               color: context.accentColor,
                             ),
                             tooltip: 'Run',
-                            onPressed: () {},
+                            onPressed: () => _showToast(context),
                           ),
                         ],
                       );
@@ -81,6 +83,19 @@ class JobPanel extends ConsumerWidget {
   Future _newBuild(Branch branch) async {
     try {
       await JenkinsApi.newBuild(branch);
-    } catch (e) {}
+    } catch (e) {
+
+    }
+  }
+
+  void _showToast(BuildContext context) {
+    final fToast = FToast();
+    fToast.init(context);
+    fToast.showToast(
+      child: const ToastWidget('Build started, hope it goes well!',
+          icon: LineIcons.running),
+      gravity: ToastGravity.TOP,
+      toastDuration: const Duration(seconds: 2),
+    );
   }
 }

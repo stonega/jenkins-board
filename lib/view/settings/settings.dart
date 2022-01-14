@@ -12,7 +12,7 @@ class SettingsPage extends ConsumerWidget {
       onClose: onClose,
       child: ListView(
         children: [
-          Text('Account'),
+          Text('data')
         ],
       ),
     );

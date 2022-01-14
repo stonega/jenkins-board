@@ -6,6 +6,7 @@ const tokenKey = 'token__key';
 const authed = 'authed__key';
 const baseUrlKey = 'base_url__key';
 const jobsKey = 'jobs__key';
+const usernameKey = 'username__key';
 
 class HiveBox {
   HiveBox._();
@@ -22,6 +23,14 @@ class HiveBox {
 
   static saveToken(String token) {
     return _box.put(tokenKey, token);
+  }
+
+  static String getUsername() {
+    return _box.get(usernameKey, defaultValue: '');
+  }
+
+  static saveUsername(String username) {
+    return _box.put(usernameKey, username);
   }
 
   static String getBaseUrl() {

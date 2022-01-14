@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:jenkins_board/widgets/toast_widget.dart';
+import 'package:line_icons/line_icons.dart';
 
 extension ContextExtension on BuildContext {
   Color get primaryColor => Theme.of(this).primaryColor;
@@ -19,6 +22,13 @@ extension ContextExtension on BuildContext {
   double get paddingTop => MediaQuery.of(this).padding.top;
   double get width => MediaQuery.of(this).size.width;
   double get height => MediaQuery.of(this).size.height;
+  void toast(String title, {IconData? icon, ToastGravity gravity = ToastGravity.TOP}) {
+    final fToast = FToast();
+    fToast.init(this);
+    fToast.showToast(
+      child: ToastWidget(title, icon: icon),
+      gravity: gravity,
+      toastDuration: const Duration(seconds: 2),
+    );
+  }
 }
-
-

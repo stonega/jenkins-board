@@ -17,9 +17,10 @@ class ToastWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (icon != null) Icon(icon!),
-          const SizedBox(
-            width: 12.0,
-          ),
+          if (icon != null)
+            const SizedBox(
+              width: 12.0,
+            ),
           Text(text),
         ],
       ),

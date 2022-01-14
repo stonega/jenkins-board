@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jenkins_board/api/jenkins_api.dart';
+import 'package:jenkins_board/storage/hive_box.dart';
 import 'package:jenkins_board/utils/extensions.dart';
+import 'package:jenkins_board/utils/helper.dart';
 import 'package:jenkins_board/widgets/custom_button.dart';
 import 'package:jenkins_board/widgets/custom_textfield.dart';
 import 'package:line_icons/line_icons.dart';
@@ -27,6 +30,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     _tokenController = TextEditingController();
     _urlController = TextEditingController();
     _pageViewController = PageController();
+    _urlController.text = HiveBox.getBaseUrl();
     _error = '';
     super.initState();
   }
@@ -60,38 +64,43 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   children: [
                     Align(
                       alignment: const Alignment(0, -0.5),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 2, color: context.accentColor),
-                            color: context.primaryColorLight,
-                            borderRadius: BorderRadius.circular(20)),
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              width: 200,
-                              child: CustomTextField(
-                                controller: _urlController,
-                                placeHolder: 'https://jenkins.example.com/',
-                                inputType: TextInputType.url,
-                              ),
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 2, color: context.accentColor),
+                                color: context.primaryColorLight,
+                                borderRadius: BorderRadius.circular(100)),
+                            padding: const EdgeInsets.only(left: 20, right: 5),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  width: 200,
+                                  child: CustomTextField(
+                                    controller: _urlController,
+                                    placeHolder: 'https://jenkins.example.com/',
+                                    inputType: TextInputType.url,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: _saveUrl,
+                                  splashRadius: 20,
+                                  icon: const Icon(
+                                      LineIcons.alternateLongArrowRight),
+                                )
+                              ],
                             ),
-                            IconButton(
-                              onPressed: () {
-                                _pageViewController.animateToPage(1,
-                                    duration: const Duration(microseconds: 300),
-                                    curve: Curves.easeIn);
-                              },
-                              splashRadius: 20,
-                              icon:
-                                  const Icon(LineIcons.alternateLongArrowRight),
-                            )
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Text(
+                              'Input the jenkins server url to get started')
+                        ],
                       ),
                     ),
                     Column(
@@ -158,5 +167,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     } catch (e) {
       setState(() => _error = 'Auth failed');
     }
+  }
+
+  void _saveUrl() {
+    final url = _urlController.text;
+    if (!Helper.isUrl(url)) {
+      context.toast('Url invalid', gravity: ToastGravity.BOTTOM);
+      return;
+    }
+    HiveBox.saveBaseUrl(url);
+    _pageViewController.animateToPage(1,
+        duration: const Duration(microseconds: 300), curve: Curves.easeIn);
   }
 }

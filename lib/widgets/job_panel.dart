@@ -5,6 +5,7 @@ import 'package:jenkins_board/api/jenkins_api.dart';
 import 'package:jenkins_board/model/branch.dart';
 import 'package:jenkins_board/model/job.dart';
 import 'package:jenkins_board/utils/extensions.dart';
+import 'package:jenkins_board/widgets/running_widget.dart';
 import 'package:jenkins_board/widgets/toast_widget.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -56,6 +57,9 @@ class JobPanel extends ConsumerWidget {
                           const SizedBox(
                             width: 10,
                           ),
+                          if(data[index].isRunning)
+                          const RunningWidget()
+                          else
                           CircleAvatar(
                             radius: 6,
                             backgroundColor: data[index].statusColor,
@@ -85,7 +89,7 @@ class JobPanel extends ConsumerWidget {
       await JenkinsApi.newBuild(branch);
       _showToast(context);
     } catch (e) {
-      
+      print(e.toString());
     }
   }
 

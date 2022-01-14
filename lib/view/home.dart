@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jenkins_board/api/jenkins_api.dart';
 import 'package:jenkins_board/provider/jobs_provider.dart';
+import 'package:jenkins_board/storage/hive_box.dart';
 import 'package:jenkins_board/utils/extensions.dart';
 import 'package:jenkins_board/view/settings/choose_jobs.dart';
 import 'package:jenkins_board/view/settings/settings.dart';
@@ -28,30 +29,32 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        HomeView(
-          onChange: (settingType) {
-            switch (settingType) {
-              case SettingType.chooseJobs:
-                setState(() => _body = ChooseJobsPage(
-                      onClose: _back,
-                    ));
-                break;
-              case SettingType.settings:
-                setState(() => _body = SettingsPage(
-                      onClose: _back,
-                    ));
-                break;
-              default:
-                _back();
-                break;
-            }
-          },
-        ),
-        AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300), child: _body),
-      ],
+    return Scaffold(
+      body: Stack(
+        children: [
+          HomeView(
+            onChange: (settingType) {
+              switch (settingType) {
+                case SettingType.chooseJobs:
+                  setState(() => _body = ChooseJobsPage(
+                        onClose: _back,
+                      ));
+                  break;
+                case SettingType.settings:
+                  setState(() => _body = SettingsPage(
+                        onClose: _back,
+                      ));
+                  break;
+                default:
+                  _back();
+                  break;
+              }
+            },
+          ),
+          AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300), child: _body),
+        ],
+      ),
     );
   }
 
@@ -67,58 +70,73 @@ class HomeView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final jobs = ref.watch(jobsProvider);
-    return Scaffold(
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 30, 30, 20),
-            child: Row(
-              children: [
-                Text('My Jobs', style: context.headline4),
-                const SizedBox(
-                  width: 20,
+    final username = HiveBox.getUsername();
+    return ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(30, 30, 30, 20),
+          child: Row(
+            children: [
+              Text('Hi $username', style: context.headline4),
+              const SizedBox(
+                width: 20,
+              ),
+              IconButton(
+                onPressed: () {
+                  onChange(SettingType.chooseJobs);
+                },
+                splashRadius: 20,
+                icon: const Icon(LineIcons.plusCircle),
+                tooltip: 'Add job',
+              ),
+              IconButton(
+                onPressed: ref.read(jobsProvider.notifier).refresh,
+                splashRadius: 20,
+                icon: const Icon(LineIcons.alternateRedo),
+                tooltip: 'Refresh',
+              ),
+              const Spacer(),
+              Container(
+                decoration: BoxDecoration(
+                  color: context.primaryColorLight,
+                  borderRadius: BorderRadius.circular(100),
                 ),
-                IconButton(
-                  onPressed: () {
-                    onChange(SettingType.chooseJobs);
-                  },
-                  splashRadius: 20,
-                  icon: const Icon(LineIcons.plusCircle),
-                  tooltip: 'Add job',
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () => onChange(SettingType.settings),
+                      splashRadius: 20,
+                      icon: Icon(
+                        LineIcons.cog,
+                        color: context.primaryColorDark,
+                      ),
+                      tooltip: 'Settings',
+                    ),
+                    IconButton(
+                      onPressed: () => _logout(context),
+                      splashRadius: 20,
+                      icon: Icon(
+                        LineIcons.shareSquare,
+                        color: context.primaryColorDark,
+                      ),
+                      tooltip: 'Logout',
+                    ),
+                  ],
                 ),
-                IconButton(
-                  onPressed: ref.read(jobsProvider.notifier).refresh,
-                  splashRadius: 20,
-                  icon: const Icon(LineIcons.alternateRedo),
-                  tooltip: 'Refresh',
-                ),
-                const Spacer(),
-                Container(
-                  width: 100,
-                  decoration: BoxDecoration(
-                    color: context.primaryColorDark,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: IconButton(
-                    onPressed: () => _logout(context),
-                    splashRadius: 20,
-                    icon:  Icon(LineIcons.shareSquare, color: context.primaryColorLight,),
-                    tooltip: 'Logout',
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-            child: Wrap(
-              spacing: 20,
-              runSpacing: 20,
-              children: [for (var j in jobs) JobPanel(job: j)],
-            ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+          child: Wrap(
+            spacing: 20,
+            runSpacing: 20,
+            children: [for (var j in jobs) JobPanel(job: j)],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

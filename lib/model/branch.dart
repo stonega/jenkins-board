@@ -41,6 +41,8 @@ class Branch {
     }
   }
 
+  bool get isRunning => lastBuild.name.contains('anime');
+
   factory Branch.fromMap(Map<String, dynamic> map) {
     return Branch(
       map['url'],

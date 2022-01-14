@@ -17,6 +17,8 @@ class JenkinsApi {
     await ApiService.get('/api');
     await HiveBox.saveBaseUrl(baseUrl);
     await HiveBox.saveToken(authCode);
+    final userInfo = await ApiService.get('$baseUrl/user/$username/api/json');
+    await HiveBox.saveUsername(userInfo['fullName']);
   }
 
   static logout() {

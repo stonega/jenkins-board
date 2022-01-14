@@ -19,6 +19,12 @@ class JenkinsApi {
     await HiveBox.saveToken(authCode);
   }
 
+  static logout() {
+    HiveBox.saveToken('');
+    HiveBox.saveBaseUrl('');
+    HiveBox.saveJobs([]);
+  }
+
   static Future<List<JobGroup>> getAllJobs() async {
     final res = await ApiService.get('/api/json');
     List<JobGroup> jobGroups = [];
@@ -44,7 +50,6 @@ class JenkinsApi {
 
   static Future<void> newBuild(Branch branch,
       {Map<String, dynamic>? params}) async {
-    final res = await ApiService.postJson('${branch.url}build', params);
-    print(res.body);
+    await ApiService.postJson('${branch.url}build', params);
   }
 }

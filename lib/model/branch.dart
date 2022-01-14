@@ -9,7 +9,9 @@ enum BuildStatus {
   aborted_anime,
   notbuilt,
   blue,
+  blue_anime,
   red,
+  red_anime
 }
 
 class Branch {

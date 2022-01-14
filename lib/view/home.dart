@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:jenkins_board/api/jenkins_api.dart';
 import 'package:jenkins_board/provider/jobs_provider.dart';
 import 'package:jenkins_board/utils/extensions.dart';
 import 'package:jenkins_board/view/settings/choose_jobs.dart';
@@ -90,6 +92,20 @@ class HomeView extends ConsumerWidget {
                   icon: const Icon(LineIcons.alternateRedo),
                   tooltip: 'Refresh',
                 ),
+                const Spacer(),
+                Container(
+                  width: 100,
+                  decoration: BoxDecoration(
+                    color: context.primaryColorDark,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: IconButton(
+                    onPressed: () => _logout(context),
+                    splashRadius: 20,
+                    icon:  Icon(LineIcons.shareSquare, color: context.primaryColorLight,),
+                    tooltip: 'Logout',
+                  ),
+                )
               ],
             ),
           ),
@@ -104,5 +120,10 @@ class HomeView extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  void _logout(BuildContext context) {
+    JenkinsApi.logout();
+    context.push('/');
   }
 }

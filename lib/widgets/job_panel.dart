@@ -84,7 +84,9 @@ class JobPanel extends ConsumerWidget {
     try {
       await JenkinsApi.newBuild(branch);
       _showToast(context);
-    } catch (e) {}
+    } catch (e) {
+      
+    }
   }
 
   void _showToast(BuildContext context) {

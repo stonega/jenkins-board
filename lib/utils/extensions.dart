@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jenkins_board/widgets/toast_widget.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 extension ContextExtension on BuildContext {
   Color get primaryColor => Theme.of(this).primaryColor;
@@ -11,6 +11,7 @@ extension ContextExtension on BuildContext {
   Color get primaryColorLight => Theme.of(this).primaryColorLight;
   Color get textColor => Theme.of(this).textTheme.bodyText1!.color!;
   Color get dialogBackgroundColor => Theme.of(this).dialogBackgroundColor;
+  AppLocalizations get S => AppLocalizations.of(this)!;
   Brightness get brightness => Theme.of(this).brightness;
   TextStyle get headline4 => Theme.of(this).textTheme.headline4!;
   TextStyle get headline5 => Theme.of(this).textTheme.headline5!;
@@ -22,7 +23,8 @@ extension ContextExtension on BuildContext {
   double get paddingTop => MediaQuery.of(this).padding.top;
   double get width => MediaQuery.of(this).size.width;
   double get height => MediaQuery.of(this).size.height;
-  void toast(String title, {IconData? icon, ToastGravity gravity = ToastGravity.TOP}) {
+  void toast(String title,
+      {IconData? icon, ToastGravity gravity = ToastGravity.TOP}) {
     final fToast = FToast();
     fToast.init(this);
     fToast.showToast(

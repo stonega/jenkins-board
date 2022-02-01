@@ -21,10 +21,11 @@ Job _$JobFromJson(Map<String, dynamic> json) {
 class _$JobTearOff {
   const _$JobTearOff();
 
-  _Job call({required String name, required String url}) {
+  _Job call({required String name, required String url, String? description}) {
     return _Job(
       name: name,
       url: url,
+      description: description,
     );
   }
 
@@ -40,6 +41,7 @@ const $Job = _$JobTearOff();
 mixin _$Job {
   String get name => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,7 +52,7 @@ mixin _$Job {
 abstract class $JobCopyWith<$Res> {
   factory $JobCopyWith(Job value, $Res Function(Job) then) =
       _$JobCopyWithImpl<$Res>;
-  $Res call({String name, String url});
+  $Res call({String name, String url, String? description});
 }
 
 /// @nodoc
@@ -65,6 +67,7 @@ class _$JobCopyWithImpl<$Res> implements $JobCopyWith<$Res> {
   $Res call({
     Object? name = freezed,
     Object? url = freezed,
+    Object? description = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -75,6 +78,10 @@ class _$JobCopyWithImpl<$Res> implements $JobCopyWith<$Res> {
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -84,7 +91,7 @@ abstract class _$JobCopyWith<$Res> implements $JobCopyWith<$Res> {
   factory _$JobCopyWith(_Job value, $Res Function(_Job) then) =
       __$JobCopyWithImpl<$Res>;
   @override
-  $Res call({String name, String url});
+  $Res call({String name, String url, String? description});
 }
 
 /// @nodoc
@@ -100,6 +107,7 @@ class __$JobCopyWithImpl<$Res> extends _$JobCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? url = freezed,
+    Object? description = freezed,
   }) {
     return _then(_Job(
       name: name == freezed
@@ -110,6 +118,10 @@ class __$JobCopyWithImpl<$Res> extends _$JobCopyWithImpl<$Res>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -117,7 +129,7 @@ class __$JobCopyWithImpl<$Res> extends _$JobCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Job implements _Job {
-  _$_Job({required this.name, required this.url});
+  _$_Job({required this.name, required this.url, this.description});
 
   factory _$_Job.fromJson(Map<String, dynamic> json) => _$$_JobFromJson(json);
 
@@ -125,10 +137,12 @@ class _$_Job implements _Job {
   final String name;
   @override
   final String url;
+  @override
+  final String? description;
 
   @override
   String toString() {
-    return 'Job(name: $name, url: $url)';
+    return 'Job(name: $name, url: $url, description: $description)';
   }
 
   @override
@@ -137,14 +151,17 @@ class _$_Job implements _Job {
         (other.runtimeType == runtimeType &&
             other is _Job &&
             const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.url, url));
+            const DeepCollectionEquality().equals(other.url, url) &&
+            const DeepCollectionEquality()
+                .equals(other.description, description));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(url));
+      const DeepCollectionEquality().hash(url),
+      const DeepCollectionEquality().hash(description));
 
   @JsonKey(ignore: true)
   @override
@@ -158,7 +175,10 @@ class _$_Job implements _Job {
 }
 
 abstract class _Job implements Job {
-  factory _Job({required String name, required String url}) = _$_Job;
+  factory _Job(
+      {required String name,
+      required String url,
+      String? description}) = _$_Job;
 
   factory _Job.fromJson(Map<String, dynamic> json) = _$_Job.fromJson;
 
@@ -166,6 +186,8 @@ abstract class _Job implements Job {
   String get name;
   @override
   String get url;
+  @override
+  String? get description;
   @override
   @JsonKey(ignore: true)
   _$JobCopyWith<_Job> get copyWith => throw _privateConstructorUsedError;

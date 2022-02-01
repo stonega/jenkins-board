@@ -6,6 +6,7 @@ class Job with _$Job {
   factory Job({
     required String name,
     required String url,
+    String? description,
   }) = _Job;
 
   factory Job.fromJson(Map<String, dynamic> json) => _$JobFromJson(json);

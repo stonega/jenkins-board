@@ -31,6 +31,11 @@ class SelectJob extends StatelessWidget {
                     job.name,
                     style: context.headline6,
                   ),
+                  if (job.description != null)
+                    Text(
+                      job.description!,
+                      style: context.headline6,
+                    ),
                   Text(
                     job.url,
                     style: context.sutitle2,

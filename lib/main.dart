@@ -5,6 +5,7 @@ import 'package:jenkins_board/api/api_service.dart';
 import 'package:jenkins_board/provider/app_state_provider.dart';
 import 'package:jenkins_board/router/router.dart';
 import 'package:jenkins_board/storage/hive_box.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -26,6 +27,15 @@ class MyApp extends ConsumerWidget {
       themeMode: appState.themeMode,
       routeInformationParser: router.routeInformationParser,
       routerDelegate: router.routerDelegate,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''),
+        Locale('zh', ''),
+      ],
     );
   }
 }

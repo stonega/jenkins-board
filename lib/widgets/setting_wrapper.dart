@@ -1,12 +1,21 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jenkins_board/utils/extensions.dart';
 
 class SettingWrapper extends StatelessWidget {
   final Widget child;
-  final VoidCallback onClose;
-  const SettingWrapper({required this.child, required this.onClose, Key? key})
+  final bool showNavBar;
+  final VoidCallback? onPre;
+  final VoidCallback? onNext;
+
+  const SettingWrapper(
+      {required this.child,
+      this.showNavBar = false,
+      this.onNext,
+      this.onPre,
+      Key? key})
       : super(key: key);
 
   @override
@@ -34,15 +43,41 @@ class SettingWrapper extends StatelessWidget {
                   tileMode: TileMode.repeated,
                 ),
               ),
-              child: Center(
-                child: GestureDetector(
-                  onTap: onClose,
-                  child: CircleAvatar(
-                    radius: 20,
-                    backgroundColor: context.accentColor,
-                    child: const Icon(Icons.close),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (showNavBar)
+                    InkWell(
+                      onTap: onPre,
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: context.accentColor,
+                        child: const Icon(Icons.keyboard_arrow_left),
+                      ),
+                    ),
+                  InkWell(
+                    onTap: context.pop,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: context.accentColor,
+                        child: const Icon(Icons.close),
+                      ),
+                    ),
                   ),
-                ),
+                  if (showNavBar)
+                    InkWell(
+                      onTap: onNext,
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: context.accentColor,
+                        child: const Icon(
+                          Icons.keyboard_arrow_right,
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
           )

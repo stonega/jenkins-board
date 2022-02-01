@@ -17,7 +17,7 @@ class AppStateNotifier extends StateNotifier<AppState> {
       primaryColorDark: const Color(0xFF346357),
       scaffoldBackgroundColor: Colors.white,
       colorScheme: ColorScheme.fromSwatch(
-        primarySwatch: Colors.amber,
+        primarySwatch: Colors.orange,
       ).copyWith(
         secondary: const Color(
           0xFFCC3631,

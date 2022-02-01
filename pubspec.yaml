@@ -21,6 +21,9 @@ dependencies:
   url_launcher: ^6.0.17
   line_icons: ^2.0.1
   fluttertoast: ^8.0.8
+  equatable: ^2.0.3
+  intl: ^0.17.0
+  google_fonts: ^2.2.0
 
 dev_dependencies:
   freezed: ^1.0.1
@@ -28,11 +31,13 @@ dev_dependencies:
   build_runner: any
   flutter_test:
     sdk: flutter
-
+  flutter_localizations:
+    sdk: flutter 
   flutter_lints: ^1.0.0
   hive_generator: ^1.1.1
 
 flutter:
   uses-material-design: true
+  generate: true
   assets:
     - assets/images/

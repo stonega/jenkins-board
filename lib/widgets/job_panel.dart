@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jenkins_board/api/jenkins_api.dart';
 import 'package:jenkins_board/model/branch.dart';
 import 'package:jenkins_board/model/job.dart';
@@ -10,8 +13,8 @@ import 'package:jenkins_board/widgets/toast_widget.dart';
 import 'package:line_icons/line_icons.dart';
 
 class JobPanel extends ConsumerWidget {
-  final Job job;
   JobPanel({required this.job, Key? key}) : super(key: key);
+  final Job job;
 
   final branchesProvider =
       FutureProvider.autoDispose.family<List<Branch>, Job>((ref, job) async {
@@ -21,7 +24,7 @@ class JobPanel extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       height: 200,
-      width: 300,
+      width: _calculateWidth(context),
       decoration: BoxDecoration(
           color: Colors.amberAccent, borderRadius: BorderRadius.circular(10)),
       padding: const EdgeInsets.all(15),
@@ -57,20 +60,25 @@ class JobPanel extends ConsumerWidget {
                           const SizedBox(
                             width: 10,
                           ),
-                          if(data[index].isRunning)
-                          const RunningWidget()
-                          else
-                          CircleAvatar(
-                            radius: 6,
-                            backgroundColor: data[index].statusColor,
+                          IconButton(
+                            icon: const Icon(LineIcons.infoCircle),
+                            onPressed: () {
+                              context.push('/build_detail', extra: data[index].url);
+                            },
                           ),
+                          if (data[index].isRunning)
+                            const RunningWidget()
+                          else
+                            CircleAvatar(
+                              radius: 6,
+                              backgroundColor: data[index].statusColor,
+                            ),
                           const Spacer(),
                           IconButton(
                             icon: Icon(
                               LineIcons.running,
                               color: context.accentColor,
                             ),
-                            tooltip: 'Run',
                             onPressed: () => _newBuild(context, data[index]),
                           ),
                         ],
@@ -89,7 +97,7 @@ class JobPanel extends ConsumerWidget {
       await JenkinsApi.newBuild(branch);
       _showToast(context);
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
     }
   }
 
@@ -102,5 +110,16 @@ class JobPanel extends ConsumerWidget {
       gravity: ToastGravity.TOP,
       toastDuration: const Duration(seconds: 2),
     );
+  }
+
+  double _calculateWidth(BuildContext context) {
+    final width = context.width;
+    if (width > 990) {
+      return (width - 90) / 3;
+    }
+    if (width > 660) {
+      return (width - 70) / 2;
+    }
+    return width - 30;
   }
 }

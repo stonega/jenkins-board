@@ -26,7 +26,8 @@ class JobPanel extends ConsumerWidget {
       height: 200,
       width: _calculateWidth(context),
       decoration: BoxDecoration(
-          color: Colors.amberAccent, borderRadius: BorderRadius.circular(10)),
+          color: Colors.redAccent[100],
+          borderRadius: BorderRadius.circular(10)),
       padding: const EdgeInsets.all(15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,9 +61,8 @@ class JobPanel extends ConsumerWidget {
                           const SizedBox(
                             width: 10,
                           ),
-                          IconButton(
-                            icon: const Icon(LineIcons.infoCircle),
-                            onPressed: () async {
+                          InkWell(
+                            onTap: () async {
                               final url = await JenkinsApi.recentBuildUrl(
                                   data[index].url);
                               if (url != null) {
@@ -72,14 +72,13 @@ class JobPanel extends ConsumerWidget {
                                     content: 'No build', icon: LineIcons.info);
                               }
                             },
+                            child: (data[index].isRunning)
+                                ? const RunningWidget()
+                                : CircleAvatar(
+                                    radius: 6,
+                                    backgroundColor: data[index].statusColor,
+                                  ),
                           ),
-                          if (data[index].isRunning)
-                            const RunningWidget()
-                          else
-                            CircleAvatar(
-                              radius: 6,
-                              backgroundColor: data[index].statusColor,
-                            ),
                           const Spacer(),
                           IconButton(
                             icon: Icon(

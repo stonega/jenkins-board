@@ -99,6 +99,7 @@ class HomeView extends ConsumerWidget {
                       icon: Icon(
                         LineIcons.alternateRedo,
                         color: context.primaryColorDark,
+                        size: 20,
                       ),
                       tooltip: 'Refresh',
                     ),

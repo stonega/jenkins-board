@@ -135,7 +135,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             onPressed: _submit,
                             child: const Text(
                               'Get Started',
-                              style: TextStyle(color: Colors.black),
                             ),
                           ),
                         )

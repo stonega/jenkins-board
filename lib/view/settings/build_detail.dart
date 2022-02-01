@@ -42,17 +42,12 @@ class BuildDetailPage extends ConsumerWidget {
               child: ListView(
                 controller: _controller,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        data.displayName,
-                        style: context.headline4,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(data.result),
-                    ],
+                  Text(
+                    data.displayName,
+                    style: context.headline4,
+                  ),
+                  const SizedBox(
+                    width: 10,
                   ),
                   _devider,
                   Row(
@@ -61,6 +56,22 @@ class BuildDetailPage extends ConsumerWidget {
                       Text(DateFormat.yMd().add_Hm().format(data.timestamp),
                           style: context.bodyText1
                               .copyWith(color: context.accentColor))
+                    ],
+                  ),
+                  _devider,
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 6,
+                        backgroundColor: _getTextColor(data.result),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        data.result,
+                        style: TextStyle(color: _getTextColor(data.result)),
+                      ),
                     ],
                   ),
                   _devider,
@@ -91,4 +102,17 @@ class BuildDetailPage extends ConsumerWidget {
   final _devider = const SizedBox(
     height: 10,
   );
+
+  Color _getTextColor(String result) {
+    switch (result) {
+      case 'FAILED':
+        return Colors.red;
+      case 'SUCCESS':
+        return Colors.green;
+      case 'ABORTED':
+        return Colors.yellow[900]!;
+      default:
+        return Colors.transparent;
+    }
+  }
 }

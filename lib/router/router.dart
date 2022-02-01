@@ -24,8 +24,8 @@ final router = GoRouter(
     GoRoute(
       name: 'buildDetail',
       path: '/build_detail',
-      builder: (context, state) =>  HomePage(
-          type: SettingType.buildDetail, branchUrl: state.extra as String),
+      builder: (context, state) => HomePage(
+          type: SettingType.buildDetail, buildUrl: state.extra as String),
     ),
     GoRoute(
       name: 'login',

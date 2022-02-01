@@ -62,8 +62,15 @@ class JobPanel extends ConsumerWidget {
                           ),
                           IconButton(
                             icon: const Icon(LineIcons.infoCircle),
-                            onPressed: () {
-                              context.push('/build_detail', extra: data[index].url);
+                            onPressed: () async {
+                              final url = await JenkinsApi.recentBuildUrl(
+                                  data[index].url);
+                              if (url != null) {
+                                context.go('/build_detail', extra: url);
+                              } else {
+                                _showToast(context,
+                                    content: 'No build', icon: LineIcons.info);
+                              }
                             },
                           ),
                           if (data[index].isRunning)
@@ -95,18 +102,20 @@ class JobPanel extends ConsumerWidget {
   Future _newBuild(BuildContext context, Branch branch) async {
     try {
       await JenkinsApi.newBuild(branch);
-      _showToast(context);
+      _showToast(context,
+          content: 'Build started, hope it goes well!',
+          icon: LineIcons.running);
     } catch (e) {
       log(e.toString());
     }
   }
 
-  void _showToast(BuildContext context) {
+  void _showToast(BuildContext context,
+      {required String content, required IconData icon}) {
     final fToast = FToast();
     fToast.init(context);
     fToast.showToast(
-      child: const ToastWidget('Build started, hope it goes well!',
-          icon: LineIcons.running),
+      child: ToastWidget(content, icon: icon),
       gravity: ToastGravity.TOP,
       toastDuration: const Duration(seconds: 2),
     );

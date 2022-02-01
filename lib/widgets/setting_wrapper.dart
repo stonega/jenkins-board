@@ -48,7 +48,7 @@ class SettingWrapper extends StatelessWidget {
                 children: [
                   if (showNavBar)
                     InkWell(
-                      onTap: onPre,
+                      onTap: onNext,
                       child: CircleAvatar(
                         radius: 20,
                         backgroundColor: context.accentColor,
@@ -56,7 +56,7 @@ class SettingWrapper extends StatelessWidget {
                       ),
                     ),
                   InkWell(
-                    onTap: context.pop,
+                    onTap: () =>  context.go('/'),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: CircleAvatar(
@@ -68,7 +68,7 @@ class SettingWrapper extends StatelessWidget {
                   ),
                   if (showNavBar)
                     InkWell(
-                      onTap: onNext,
+                      onTap: onPre,
                       child: CircleAvatar(
                         radius: 20,
                         backgroundColor: context.accentColor,

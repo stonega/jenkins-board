@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class BuildResult extends Equatable {
-  final String userName;
   final Duration duration;
   final int id;
   final DateTime timestamp;
@@ -15,8 +14,7 @@ class BuildResult extends Equatable {
   String? consoleLog;
 
   BuildResult(
-      {required this.userName,
-      required this.duration,
+      {required this.duration,
       required this.id,
       required this.result,
       required this.timestamp,
@@ -28,7 +26,6 @@ class BuildResult extends Equatable {
 
   Map<String, dynamic> toMap() {
     return {
-      'userName': userName,
       'duration': duration.inSeconds,
       'id': id,
       'timestamp': timestamp,
@@ -41,12 +38,8 @@ class BuildResult extends Equatable {
   }
 
   factory BuildResult.fromMap(Map<String, dynamic> map) {
-    final actions = map['actions'];
     final changeSets = map['changeSets'] as List<dynamic>;
     return BuildResult(
-      userName: actions[0]['causes'] != null
-          ? actions[0]['causes'][0]['userName']
-          : actions[1]['causes'][0]['userName'],
       duration: Duration(seconds: map['duration']),
       id: int.parse(map['id']),
       timestamp: DateTime.fromMillisecondsSinceEpoch(map['timestamp']),

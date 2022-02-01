@@ -56,17 +56,22 @@ class JenkinsApi {
     await ApiService.postJson('${branch.url}build', params);
   }
 
-  static Future<BuildResult?> recentBuild(String url) async {
+  static Future<String?> recentBuildUrl(
+    String url,
+  ) async {
     final res = await ApiService.get('${url}api/json');
-    if (res['builds'] != null) {
+    if (res['builds'] != null && res['builds'].isNotEmpty) {
       if (res['builds'][0] != null) {
-        final url = res['builds'][0]['url'];
-        final result = await ApiService.get('${url}api/json');
-        final log = await ApiService.get('${url}consoleText');
-        final buildResult = BuildResult.fromMap(result);
-        buildResult.consoleLog = log;
-        return buildResult;
+        return res['builds'][0]['url'];
       }
     }
+  }
+
+  static Future<BuildResult> buildDetail(String url) async {
+    final result = await ApiService.get('${url}api/json');
+    final log = await ApiService.get('${url}consoleText');
+    final buildResult = BuildResult.fromMap(result);
+    buildResult.consoleLog = log;
+    return buildResult;
   }
 }

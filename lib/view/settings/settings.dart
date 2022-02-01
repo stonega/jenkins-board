@@ -8,8 +8,13 @@ class SettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SettingWrapper(
-      child: ListView(
-        children: [Text('data')],
+      child: Center(
+        child: SizedBox(
+          width: 600,
+          child: ListView(
+            children: const [Text('Unavailable')],
+          ),
+        ),
       ),
     );
   }

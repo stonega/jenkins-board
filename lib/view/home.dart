@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jenkins_board/api/jenkins_api.dart';
-import 'package:jenkins_board/model/branch.dart';
 import 'package:jenkins_board/provider/jobs_provider.dart';
 import 'package:jenkins_board/storage/hive_box.dart';
 import 'package:jenkins_board/utils/extensions.dart';
@@ -16,11 +15,13 @@ import 'package:line_icons/line_icons.dart';
 enum SettingType { chooseJobs, settings, buildDetail, undefined }
 
 class HomePage extends StatelessWidget {
-  const HomePage({SettingType? type, this.branchUrl, Key? key})
+  const HomePage(
+      {SettingType? type, this.buildUrl, this.isFirst = true, Key? key})
       : settingType = type ?? SettingType.undefined,
         super(key: key);
   final SettingType settingType;
-  final String? branchUrl;
+  final String? buildUrl;
+  final bool isFirst;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class HomePage extends StatelessWidget {
       case SettingType.chooseJobs:
         return ChooseJobsPage();
       case SettingType.buildDetail:
-        return BuildDetailPage(branchUrl!);
+        return BuildDetailPage(buildUrl!);
       default:
         return const Center();
     }

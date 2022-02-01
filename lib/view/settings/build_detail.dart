@@ -14,7 +14,7 @@ class BuildDetailPage extends ConsumerWidget {
 
   final buildResultProvider =
       FutureProvider.family<BuildResult?, String>((ref, url) async {
-    return JenkinsApi.recentBuild(url);
+    return JenkinsApi.buildDetail(url);
   });
   final ScrollController _controller = ScrollController();
 
@@ -32,10 +32,10 @@ class BuildDetailPage extends ConsumerWidget {
           showNavBar: true,
           onNext: data.nextBuild == null
               ? null
-              : () => context.push('/build_detail', extra: data.nextBuild),
+              : () => context.go('/build_detail', extra: data.nextBuild),
           onPre: data.preBuild == null
               ? null
-              : () => context.push('/build_detail', extra: data.preBuild),
+              : () => context.go('/build_detail', extra: data.preBuild),
           child: Center(
             child: SizedBox(
               width: 600,
@@ -58,14 +58,6 @@ class BuildDetailPage extends ConsumerWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        data.userName,
-                        style: context.bodyText1
-                            .copyWith(color: context.accentColor),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
                       Text(DateFormat.yMd().add_Hm().format(data.timestamp),
                           style: context.bodyText1
                               .copyWith(color: context.accentColor))

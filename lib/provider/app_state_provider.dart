@@ -32,4 +32,8 @@ class AppStateNotifier extends StateNotifier<AppState> {
         locale: locale,
         authed: authed);
   }
+
+  setLocale(Locale locale) {
+    state = state.copyWith(locale: locale);
+  }
 }

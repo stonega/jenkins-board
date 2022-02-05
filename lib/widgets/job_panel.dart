@@ -26,7 +26,7 @@ class JobPanel extends ConsumerWidget {
       height: 200,
       width: _calculateWidth(context),
       decoration: BoxDecoration(
-          color: Colors.redAccent[100],
+          color: context.primaryColorLight,
           borderRadius: BorderRadius.circular(10)),
       padding: const EdgeInsets.all(15),
       child: Column(

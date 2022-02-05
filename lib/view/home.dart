@@ -74,9 +74,9 @@ class HomeView extends ConsumerWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Row(
-                    children: const [
-                      Text('Add job'),
-                      Icon(
+                    children: [
+                      Text(context.S.addJob),
+                      const Icon(
                         LineIcons.plusCircle,
                         size: 25,
                       ),
@@ -101,7 +101,7 @@ class HomeView extends ConsumerWidget {
                         color: context.primaryColorDark,
                         size: 20,
                       ),
-                      tooltip: 'Refresh',
+                      tooltip: context.S.refresh,
                     ),
                     Container(
                       width: 2,
@@ -117,7 +117,7 @@ class HomeView extends ConsumerWidget {
                         LineIcons.cog,
                         color: context.primaryColorDark,
                       ),
-                      tooltip: 'Settings',
+                      tooltip: context.S.settings,
                     ),
                     Container(
                       width: 2,
@@ -131,11 +131,11 @@ class HomeView extends ConsumerWidget {
                         LineIcons.shareSquare,
                         color: context.primaryColorDark,
                       ),
-                      tooltip: 'Logout',
+                      tooltip: context.S.logout,
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

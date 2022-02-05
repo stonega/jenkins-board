@@ -12,6 +12,7 @@ extension ContextExtension on BuildContext {
   Color get textColor => Theme.of(this).textTheme.bodyText1!.color!;
   Color get dialogBackgroundColor => Theme.of(this).dialogBackgroundColor;
   AppLocalizations get S => AppLocalizations.of(this)!;
+  Locale get locale => Localizations.localeOf(this);
   Brightness get brightness => Theme.of(this).brightness;
   TextStyle get headline4 => Theme.of(this).textTheme.headline4!;
   TextStyle get headline5 => Theme.of(this).textTheme.headline5!;

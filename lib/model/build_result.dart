@@ -43,7 +43,7 @@ class BuildResult extends Equatable {
       duration: Duration(seconds: map['duration']),
       id: int.parse(map['id']),
       timestamp: DateTime.fromMillisecondsSinceEpoch(map['timestamp']),
-      result: map['result'],
+      result: map['result'] ?? 'RUNNING',
       displayName: map['displayName'],
       commits: changeSets.isNotEmpty
           ? [for (var i in changeSets[0]['items']) i['msg']]

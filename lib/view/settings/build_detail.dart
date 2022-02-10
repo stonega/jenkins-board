@@ -111,6 +111,8 @@ class BuildDetailPage extends ConsumerWidget {
         return Colors.green;
       case 'ABORTED':
         return Colors.yellow[900]!;
+      case 'RUNNING':
+        return Colors.yellow[900]!;
       default:
         return Colors.transparent;
     }

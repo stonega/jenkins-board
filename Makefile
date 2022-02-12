@@ -25,8 +25,7 @@ tar:
 
 appimage:
 				 appimage-builder --recipe AppImageBuilder.yml\
-				 && ls -al\
-				 && mv jenkins_board-*-x86_64.AppImage build
+				 && mv Jenkins Board-*-x86_64.AppImage build/jenkins-board-linux-x86_64.AppImage
 
 aursrcinfo:
 					 docker run -e EXPORT_SRC=1 -v ${PWD}/aur-struct:/pkg -v ${MIRRORLIST}:/etc/pacman.d/mirrorlist:ro whynothugo/makepkg

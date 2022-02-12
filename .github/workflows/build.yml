@@ -32,7 +32,7 @@ jobs:
           path: |
             build/jenkins-board-linux-x86_64.deb
             build/jenkins-board-linux-x86_64.tar.xz
-            build/jenkins_board-*-x86_64.AppImage
+            build/jenkins-board-linux-x86_64.AppImage
   build_windows:
     runs-on: windows-latest
     steps:

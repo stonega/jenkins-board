@@ -66,7 +66,7 @@ class JobPanel extends ConsumerWidget {
                               final url = await JenkinsApi.recentBuildUrl(
                                   data[index].url);
                               if (url != null) {
-                                context.go('/build_detail', extra: url);
+                                context.go('/home/build_detail', extra: url);
                               } else {
                                 _showToast(context,
                                     content: 'No build', icon: LineIcons.info);

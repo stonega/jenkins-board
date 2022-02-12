@@ -32,10 +32,10 @@ class BuildDetailPage extends ConsumerWidget {
           showNavBar: true,
           onNext: data.nextBuild == null
               ? null
-              : () => context.go('/build_detail', extra: data.nextBuild),
+              : () => context.go('/home/build_detail', extra: data.nextBuild),
           onPre: data.preBuild == null
               ? null
-              : () => context.go('/build_detail', extra: data.preBuild),
+              : () => context.go('/home/build_detail', extra: data.preBuild),
           child: Center(
             child: SizedBox(
               width: 600,

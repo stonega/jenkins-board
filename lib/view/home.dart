@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -12,7 +14,7 @@ import 'package:jenkins_board/widgets/custom_button.dart';
 import 'package:jenkins_board/widgets/job_panel.dart';
 import 'package:line_icons/line_icons.dart';
 
-enum SettingType { chooseJobs, settings, buildDetail, undefined }
+enum SettingType { choose_jobs, settings, build_detail, undefined }
 
 class HomePage extends StatelessWidget {
   const HomePage(
@@ -40,9 +42,9 @@ class HomePage extends StatelessWidget {
     switch (settingType) {
       case SettingType.settings:
         return const SettingsPage();
-      case SettingType.chooseJobs:
+      case SettingType.choose_jobs:
         return ChooseJobsPage();
-      case SettingType.buildDetail:
+      case SettingType.build_detail:
         return BuildDetailPage(buildUrl!);
       default:
         return const Center();
@@ -69,7 +71,7 @@ class HomeView extends ConsumerWidget {
               ),
               CustomButton(
                 onPressed: () {
-                  context.push('/choose_jobs');
+                  context.go('/home/choose_jobs');
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -110,7 +112,7 @@ class HomeView extends ConsumerWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        context.push('/settings');
+                        context.go('/home/settings');
                       },
                       splashRadius: 20,
                       icon: Icon(

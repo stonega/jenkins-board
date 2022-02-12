@@ -1,31 +1,27 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jenkins_board/model/branch.dart';
 import 'package:jenkins_board/storage/hive_box.dart';
 import 'package:jenkins_board/view/home.dart';
 import 'package:jenkins_board/view/login/login.dart';
 
 final router = GoRouter(
   routes: [
+    GoRoute(path: '/', redirect: (_) => '/home/undefined'),
     GoRoute(
-      name: 'home',
-      path: '/',
-      builder: (context, state) => const HomePage(),
-    ),
-    GoRoute(
-      name: 'settings',
-      path: '/settings',
-      builder: (context, state) => const HomePage(type: SettingType.settings),
-    ),
-    GoRoute(
-      name: 'chooseJobs',
-      path: '/choose_jobs',
-      builder: (context, state) => const HomePage(type: SettingType.chooseJobs),
-    ),
-    GoRoute(
-      name: 'buildDetail',
-      path: '/build_detail',
-      builder: (context, state) => HomePage(
-          type: SettingType.buildDetail, buildUrl: state.extra as String),
+      path: '/home/:type',
+      pageBuilder: (context, state) {
+        final type = state.params['type'];
+        final settingType = SettingType.values.byName(type!);
+        return CustomTransitionPage<void>(
+          key: state.pageKey,
+          child: HomePage(
+            type: settingType,
+            buildUrl: state.extra as String?,
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+              FadeTransition(opacity: animation, child: child),
+        );
+      },
     ),
     GoRoute(
       name: 'login',

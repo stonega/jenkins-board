@@ -14,7 +14,7 @@ class AppStateNotifier extends StateNotifier<AppState> {
       appBarTheme: const AppBarTheme(color: Color(0xFFC9CCD5)),
       primaryColor: Colors.white,
       primaryColorLight: Colors.grey[200],
-      primaryColorDark: const Color(0xFF346357),
+      primaryColorDark: Colors.greenAccent,
       scaffoldBackgroundColor: Colors.white,
       colorScheme: ColorScheme.fromSwatch(
         primarySwatch: Colors.orange,

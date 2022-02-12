@@ -45,7 +45,9 @@ class HomePage extends StatelessWidget {
       case SettingType.choose_jobs:
         return ChooseJobsPage();
       case SettingType.build_detail:
-        return BuildDetailPage(buildUrl!);
+        return BuildDetailPage(
+          url: buildUrl,
+        );
       default:
         return const Center();
     }

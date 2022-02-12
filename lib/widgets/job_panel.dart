@@ -46,7 +46,7 @@ class JobPanel extends ConsumerWidget {
                     return const Center(child: CircularProgressIndicator());
                   },
                   error: (err, stack) {
-                    return const Text('Error');
+                    return const Center(child: Text('Something wrong'));
                   },
                   data: (data) => ListView.builder(
                     shrinkWrap: true,
@@ -63,13 +63,16 @@ class JobPanel extends ConsumerWidget {
                           ),
                           InkWell(
                             onTap: () async {
+                              context.go('/home/build_detail');
                               final url = await JenkinsApi.recentBuildUrl(
                                   data[index].url);
                               if (url != null) {
                                 context.go('/home/build_detail', extra: url);
                               } else {
+                                context.go('/');
                                 _showToast(context,
-                                    content: 'No build', icon: LineIcons.info);
+                                    content: 'No build under the branch',
+                                    icon: LineIcons.infoCircle);
                               }
                             },
                             child: (data[index].isRunning)
@@ -102,7 +105,7 @@ class JobPanel extends ConsumerWidget {
     try {
       await JenkinsApi.newBuild(branch);
       _showToast(context,
-          content: 'Build started, hope it goes well!',
+          content: 'Build started, good luck!',
           icon: LineIcons.running);
     } catch (e) {
       log(e.toString());
@@ -115,8 +118,8 @@ class JobPanel extends ConsumerWidget {
     fToast.init(context);
     fToast.showToast(
       child: ToastWidget(content, icon: icon),
-      gravity: ToastGravity.TOP,
-      toastDuration: const Duration(seconds: 2),
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: const Duration(seconds: 5),
     );
   }
 

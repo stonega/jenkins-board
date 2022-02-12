@@ -10,8 +10,9 @@ deb:
 		&& cp linux/jenkins_board.desktop $(USR_SHARE)/applications/\
 		&& cp linux/me.stonegate.jenkins_board.appdata.xml $(USR_SHARE)/appdata/jenkins_board.appdata.xml\
 		&& cp assets/images/logo.png $(USR_SHARE)/icons/jenkins_board\
+		&& cp -r linux/DEBIAN deb-struct/\
 		&& sed -i 's|me.stonegate.jenkins_board|jenkins_board|' $(USR_SHARE)/appdata/jenkins_board.appdata.xml\
-		&& dpkg-deb -b deb-struct/ build/jenkins-board-linux-x86_64.deb
+		&& dpkg-deb -b deb-struct build/jenkins-board-linux-x86_64.deb
 
 tar:
 		mkdir -p $(TEMP_DIR)\

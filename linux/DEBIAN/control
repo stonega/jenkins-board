@@ -1,0 +1,7 @@
+Package: jenkins-board
+Version: 0.1.0
+Section: developer
+Priority: optional
+Architecture: all
+Maintainer: Stone <xijieyin@gmail.com>
+Description: Jenkins tool

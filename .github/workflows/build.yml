@@ -2,7 +2,7 @@ name: Flutter Cross Build
 on:
   push:
     branches:
-      - build
+      - main
   workflow_dispatch:
 
 jobs:

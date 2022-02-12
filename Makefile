@@ -25,7 +25,7 @@ tar:
 
 appimage:
 				 appimage-builder --recipe AppImageBuilder.yml\
-				 && mv Spotube-*-x86_64.AppImage build
+				 && mv jenkins-board-*-x86_64.AppImage build
 
 aursrcinfo:
 					 docker run -e EXPORT_SRC=1 -v ${PWD}/aur-struct:/pkg -v ${MIRRORLIST}:/etc/pacman.d/mirrorlist:ro whynothugo/makepkg

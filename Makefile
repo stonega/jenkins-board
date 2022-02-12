@@ -9,7 +9,7 @@ deb:
 		&& cp -r $(BUNDLE_DIR)/* $(USR_SHARE)/jenkins_board\
 		&& cp linux/jenkins_board.desktop $(USR_SHARE)/applications/\
 		&& cp linux/me.stonegate.jenkins_board.appdata.xml $(USR_SHARE)/appdata/jenkins_board.appdata.xml\
-		&& cp assets/logo.png $(USR_SHARE)/icons/jenkins_board\
+		&& cp assets/images/logo.png $(USR_SHARE)/icons/jenkins_board\
 		&& sed -i 's|me.stonegate.jenkins_board|jenkins_board|' $(USR_SHARE)/appdata/jenkins_board.appdata.xml\
 		&& dpkg-deb -b deb-struct/ build/jenkins-board-linux-x86_64.deb
 
@@ -17,7 +17,7 @@ tar:
 		mkdir -p $(TEMP_DIR)\
 		&& cp -r $(BUNDLE_DIR)/* $(TEMP_DIR)\
 		&& cp linux/jenkins_board.desktop $(TEMP_DIR)\
-		&& cp assets/logo.png $(TEMP_DIR)\
+		&& cp assets/images/logo.png $(TEMP_DIR)\
 		&& cp linux/me.stonegate.jenkins_board.appdata.xml $(TEMP_DIR)\
 		&& tar -cJf build/jenkins-board-linux-x86_64.tar.xz -C $(TEMP_DIR) .\
 		&& rm -rf $(TEMP_DIR)

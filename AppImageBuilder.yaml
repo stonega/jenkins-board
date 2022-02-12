@@ -4,7 +4,7 @@ script:
   - rm -rf AppDir || true
   - cp -r build/linux/x64/release/bundle AppDir
   - mkdir -p AppDir/usr/share/icons/hicolor/64x64/apps/
-  - cp assets/logo.png AppDir/usr/share/icons/hicolor/64x64/apps/
+  - cp assets/images/logo.png AppDir/usr/share/icons/hicolor/64x64/apps/
 AppDir:
   path: ./AppDir
   app_info:

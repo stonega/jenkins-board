@@ -25,6 +25,7 @@ tar:
 
 appimage:
 				 appimage-builder --recipe AppImageBuilder.yml\
+				 && ls -al\
 				 && mv jenkins_board-*-x86_64.AppImage build
 
 aursrcinfo:

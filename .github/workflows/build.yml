@@ -30,9 +30,9 @@ jobs:
         with:
           name: Jenkins-Board-Linux-Bundle
           path: |
-            build/Jenkins-Board-linux-x86_64.deb
-            build/Jenkins-Board-linux-x86_64.tar.xz
-            build/Jenkins-Board-*-x86_64.AppImage
+            build/jenkins-board-linux-x86_64.deb
+            build/jenkins-board-linux-x86_64.tar.xz
+            build/jenkins-board-*-x86_64.AppImage
   build_windows:
     runs-on: windows-latest
     steps:
@@ -50,8 +50,8 @@ jobs:
         with:
           name: Jenkins-Board-Windows-Bundle
           path: |
-            build/installer/Jenkins-Board-windows-x86_64-setup.exe
-            build/spotube.*.nupkg
+            build/installer/jenkins-board-windows-x86_64-setup.exe
+            build/jenkins-board.*.nupkg
   build_macos:
     runs-on: macos-11
     steps:

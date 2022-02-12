@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Jenkins Board
+Exec=/usr/bin/Jenkins_board
+Icon=/usr/share/icons/Jenkins_board/logo.png
+Comment=Jenkins tool
+Terminal=false
+Categories=Developer;

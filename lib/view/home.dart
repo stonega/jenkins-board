@@ -49,7 +49,7 @@ class HomePage extends StatelessWidget {
         return ChooseJobsPage();
       case SettingType.build_detail:
         return BuildDetailPage(
-          buildUrl!,
+          url: buildUrl!,
         );
       case SettingType.build_tasks:
         return const BuildTasksPage();

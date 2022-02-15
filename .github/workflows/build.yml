@@ -8,6 +8,7 @@ on:
 jobs:
   build_ubuntu:
     runs-on: ubuntu-latest
+    env: 
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2.2.0
@@ -61,7 +62,26 @@ jobs:
           cache: true
       - run: flutter config --enable-macos-desktop
       - run: flutter build macos
-      - run: du -sh build/macos/Build/Products/Release/Jenkins Board.app
+      - run: du -sh build/macos/Build/Products/Release/Jenkins\ Board.app
+            - name: Codesign executable
+        env:
+          MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+        run: |
+          echo $MACOS_CERTIFICATE | base64 --decode > certificate.p12
+          echo "Create Keychain"
+          security create-keychain -p build.keychain
+          echo "Assign to Login Keychain"
+          security default-keychain -s build.keychain
+          echo "Unlock the Login Keychain"
+          security unlock-keychain -p build.keychain
+          echo "Import certificate"
+          security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
+          echo "Set Key Partition"
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k build.keychain
+          echo "Find Identity"
+          security find-identity
+          echo "Sign the app"
+          /usr/bin/codesign --force --deep -s 9FU28TNNLS build/macos/Build/Products/Release/Jenkins\ Board.app
       - run: npm install -g appdmg
       - run: appdmg appdmg.json build/jenkins-board-macos-x86_64.dmg
       - uses: actions/upload-artifact@v2

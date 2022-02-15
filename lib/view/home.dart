@@ -4,17 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jenkins_board/api/jenkins_api.dart';
+import 'package:jenkins_board/model/build_task.dart';
 import 'package:jenkins_board/provider/jobs_provider.dart';
 import 'package:jenkins_board/storage/hive_box.dart';
 import 'package:jenkins_board/utils/extensions.dart';
 import 'package:jenkins_board/view/settings/build_detail.dart';
+import 'package:jenkins_board/view/settings/build_task.dart';
 import 'package:jenkins_board/view/settings/choose_jobs.dart';
 import 'package:jenkins_board/view/settings/settings.dart';
+import 'package:jenkins_board/widgets/build_task_button.dart';
 import 'package:jenkins_board/widgets/custom_button.dart';
 import 'package:jenkins_board/widgets/job_panel.dart';
 import 'package:line_icons/line_icons.dart';
 
-enum SettingType { choose_jobs, settings, build_detail, undefined }
+enum SettingType { choose_jobs, settings, build_detail, build_tasks, undefined }
 
 class HomePage extends StatelessWidget {
   const HomePage(
@@ -48,6 +51,8 @@ class HomePage extends StatelessWidget {
         return BuildDetailPage(
           buildUrl!,
         );
+      case SettingType.build_tasks:
+        return const BuildTasksPage();
       default:
         return const Center();
     }
@@ -89,6 +94,10 @@ class HomeView extends ConsumerWidget {
                 ),
               ),
               const Spacer(),
+              const BuildTasksButton(),
+              const SizedBox(
+                width: 20,
+              ),
               Container(
                 decoration: BoxDecoration(
                   color: context.primaryColorLight,

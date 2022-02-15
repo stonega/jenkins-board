@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:jenkins_board/model/build_param.dart';
 
 enum BuildStatus {
   aborted,
@@ -18,8 +19,9 @@ class Branch {
   final String url;
   final String name;
   final String color;
+  final List<BuildParam> buildParams;
 
-  Branch(this.url, this.name, this.color);
+  Branch(this.url, this.name, this.color, this.buildParams);
 
   Map<String, dynamic> toMap() {
     return {
@@ -44,11 +46,9 @@ class Branch {
   bool get isRunning => lastBuild.name.contains('anime');
 
   factory Branch.fromMap(Map<String, dynamic> map) {
-    return Branch(
-      map['url'],
-      map['name'],
-      map['color'],
-    );
+    // final params = map['property'][1]?['parameterDefinitions'] ?? [];
+    return Branch(map['url'], map['name'], map['color'],
+        [for (var p in []) BuildParam.fromMap(p)]);
   }
 
   String toJson() => json.encode(toMap());

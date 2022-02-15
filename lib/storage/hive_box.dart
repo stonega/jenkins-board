@@ -1,4 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:jenkins_board/model/build_task.dart';
 import 'package:jenkins_board/model/job.dart';
 
 const boxKey = 'jenkins_box__key';
@@ -6,6 +7,7 @@ const tokenKey = 'token__key';
 const authed = 'authed__key';
 const baseUrlKey = 'base_url__key';
 const jobsKey = 'jobs__key';
+const buildTasksKey = 'build_tasks__key';
 const usernameKey = 'username__key';
 
 class HiveBox {
@@ -42,11 +44,36 @@ class HiveBox {
   }
 
   static saveJobs(List<Job> jobs) {
-    return _box.put(jobsKey, jobs.map((j) => j.toJson()).toList());
+    return _box.put(
+      jobsKey,
+      jobs.map((j) => j.toJson()).toList(),
+    );
   }
 
   static List<Job> getJobs() {
     final jobs = _box.get(jobsKey, defaultValue: []);
-    return [for (var j in jobs) Job.fromJson(Map<String, dynamic>.from(j))];
+    return [
+      for (var j in jobs)
+        Job.fromJson(
+          Map<String, dynamic>.from(j),
+        ),
+    ];
+  }
+
+  static saveBuildTasks(List<BuildTask> tasks) {
+    return _box.put(
+      buildTasksKey,
+      tasks.map((t) => t.toJson()).toList(),
+    );
+  }
+
+  static List<BuildTask> getBuildTasks() {
+    final tasks = _box.get(buildTasksKey, defaultValue: []);
+    return [
+      for (var t in tasks)
+        BuildTask.fromMap(
+          Map<String, dynamic>.from(t),
+        ),
+    ];
   }
 }

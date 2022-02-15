@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:jenkins_board/api/api_service.dart';
+import 'package:jenkins_board/api/models/queue_item.dart';
 import 'package:jenkins_board/model/branch.dart';
 import 'package:jenkins_board/model/build_result.dart';
 import 'package:jenkins_board/model/job_group.dart';
@@ -51,20 +52,15 @@ class JenkinsApi {
     return branches;
   }
 
-  static Future<void> newBuild(Branch branch,
-      {Map<String, dynamic>? params}) async {
-    await ApiService.postJson('${branch.url}build', params);
+  static Future<QueueItem> getQueueItem(String url) async {
+    final res = await ApiService.get('${url}api/json');
+    return QueueItem.fromMap(res);
   }
 
-  static Future<String?> recentBuildUrl(
-    String url,
-  ) async {
-    final res = await ApiService.get('${url}api/json');
-    if (res['builds'] != null && res['builds'].isNotEmpty) {
-      if (res['builds'][0] != null) {
-        return res['builds'][0]['url'];
-      }
-    }
+  static Future<String> newBuild(Branch branch,
+      {Map<String, dynamic>? params}) async {
+    final header = await ApiService.postHeader('${branch.url}build', params);
+    return header['localtion'][0];
   }
 
   static Future<BuildResult> buildDetail(String url) async {

@@ -65,6 +65,12 @@ class ApiService {
     return response.data;
   }
 
+  static Future postHeader(String url,
+      [Map<String, dynamic>? data, String? token]) async {
+    var response = await dio.post(url, data: data);
+    return response.headers;
+  }
+
   static Future delete(String url,
       [Map<String, dynamic>? params, String? token]) async {
     var response = await dio.delete(url, queryParameters: params);

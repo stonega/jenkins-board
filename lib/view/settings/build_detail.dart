@@ -9,8 +9,8 @@ import 'package:jenkins_board/utils/extensions.dart';
 import 'package:intl/intl.dart';
 
 class BuildDetailPage extends ConsumerWidget {
-  BuildDetailPage(this.url, {Key? key}) : super(key: key);
-  final String url;
+  BuildDetailPage({this.url, Key? key}) : super(key: key);
+  final String? url;
 
   final buildResultProvider =
       FutureProvider.family<BuildResult?, String>((ref, url) async {
@@ -20,7 +20,11 @@ class BuildDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final buildResult = ref.watch(buildResultProvider(url));
+    if (url == null) {
+      return const SettingWrapper(
+          child: Center(child: CircularProgressIndicator()));
+    }
+    final buildResult = ref.watch(buildResultProvider(url!));
     return buildResult.when(
       loading: () => const SettingWrapper(
           child: Center(child: CircularProgressIndicator())),

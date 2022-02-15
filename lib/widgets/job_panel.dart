@@ -6,7 +6,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jenkins_board/api/jenkins_api.dart';
 import 'package:jenkins_board/model/branch.dart';
+import 'package:jenkins_board/model/build_task.dart';
 import 'package:jenkins_board/model/job.dart';
+import 'package:jenkins_board/provider/build_tasks_provider.dart';
 import 'package:jenkins_board/utils/extensions.dart';
 import 'package:jenkins_board/widgets/running_widget.dart';
 import 'package:jenkins_board/widgets/toast_widget.dart';
@@ -83,30 +85,43 @@ class JobPanel extends ConsumerWidget {
                                   ),
                           ),
                           const Spacer(),
-                          IconButton(
-                            icon: Icon(
-                              LineIcons.running,
-                              color: context.accentColor,
+                          Material(
+                            color: Colors.transparent,
+                            child: IconButton(
+                              splashRadius: 20,
+                              icon: Icon(
+                                LineIcons.running,
+                                color: context.accentColor,
+                              ),
+                              onPressed: () => _newBuild(
+                                context,
+                                ref,
+                                data[index],
+                              ),
                             ),
-                            onPressed: () => _newBuild(context, data[index]),
                           ),
                         ],
                       );
                     },
                   ),
                 ),
-          )
+          ),
         ],
       ),
     );
   }
 
-  Future _newBuild(BuildContext context, Branch branch) async {
+  Future _newBuild(BuildContext context, WidgetRef ref, Branch branch) async {
     try {
       await JenkinsApi.newBuild(branch);
+      final task = BuildTask(
+          branchName: branch.name,
+          branchUrl: branch.url,
+          buildUrl: '',
+          startTime: DateTime.now());
+      ref.read(buildTasksProvider.notifier).add(task);
       _showToast(context,
-          content: 'Build started, good luck!',
-          icon: LineIcons.running);
+          content: 'Build started, good luck!', icon: LineIcons.running);
     } catch (e) {
       log(e.toString());
     }

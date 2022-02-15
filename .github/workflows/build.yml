@@ -63,7 +63,7 @@ jobs:
       - run: flutter config --enable-macos-desktop
       - run: flutter build macos
       - run: du -sh build/macos/Build/Products/Release/Jenkins\ Board.app
-            - name: Codesign executable
+      - name: Codesign executable
         env:
           MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
         run: |

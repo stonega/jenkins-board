@@ -64,7 +64,7 @@ jobs:
       - run: du -sh build/macos/Build/Products/Release/Jenkins\ Board.app
       - name: Codesign executable
         env:
-          MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+          MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATION }}
           MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
         run: |
           echo $MAC0S_CERTIFICATE_PWD

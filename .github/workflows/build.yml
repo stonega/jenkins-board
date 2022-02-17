@@ -65,8 +65,9 @@ jobs:
       - name: Codesign executable
         env:
           MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
-          MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD}}
+          MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
         run: |
+          echo $MAC0S_CERTIFICATE_PWD
           echo $MACOS_CERTIFICATE | base64 --decode > certificate.p12
           echo "Create Keychain"
           security create-keychain -p 123456 build.keychain

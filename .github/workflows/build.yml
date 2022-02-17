@@ -69,15 +69,15 @@ jobs:
         run: |
           echo $MACOS_CERTIFICATE | base64 --decode > certificate.p12
           echo "Create Keychain"
-          security create-keychain build.keychain
+          security create-keychain -p 123456 build.keychain
           echo "Assign to Login Keychain"
           security default-keychain -s build.keychain
           echo "Unlock the Login Keychain"
-          security unlock-keychain build.keychain
+          security unlock-keychain -p 123456 build.keychain
           echo "Import certificate"
-          security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD  -T /usr/bin/codesign
+          security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
           echo "Set Key Partition"
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k build.keychain
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k 123456 build.keychain
           echo "Find Identity"
           security find-identity
           echo "Sign the app"

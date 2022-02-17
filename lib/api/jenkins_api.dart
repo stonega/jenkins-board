@@ -57,6 +57,18 @@ class JenkinsApi {
     return QueueItem.fromMap(res);
   }
 
+  static Future<String?> recentBuildUrl(
+    String url,
+  ) async {
+    final res = await ApiService.get('${url}api/json');
+    if (res['builds'] != null && res['builds'].isNotEmpty) {
+      if (res['builds'][0] != null) {
+        return res['builds'][0]['url'];
+      }
+    }
+    return null;
+  }
+
   static Future<String> newBuild(Branch branch,
       {Map<String, dynamic>? params}) async {
     final header = await ApiService.postHeader('${branch.url}build', params);

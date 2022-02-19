@@ -40,5 +40,6 @@ final router = GoRouter(
               'login',
             );
     }
+    return null;
   },
 );

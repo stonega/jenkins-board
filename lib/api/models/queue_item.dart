@@ -7,6 +7,7 @@ class QueueItem {
   final int id;
   final int inQueueSince;
   final String params;
+  final String color;
   QueueItem({
     required this.buildable,
     required this.cancelled,
@@ -14,6 +15,7 @@ class QueueItem {
     required this.id,
     required this.inQueueSince,
     required this.params,
+    required this.color,
   });
 
   Map<String, dynamic> toMap() {
@@ -24,6 +26,7 @@ class QueueItem {
       'id': id,
       'inQueueSince': inQueueSince,
       'params': params,
+      'color': color,
     };
   }
 
@@ -35,10 +38,12 @@ class QueueItem {
       id: map['id'],
       inQueueSince: map['inQueueSince'],
       params: map['params'],
+      color: map['task']['color']
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory QueueItem.fromJson(String source) => QueueItem.fromMap(json.decode(source));
+  factory QueueItem.fromJson(String source) =>
+      QueueItem.fromMap(json.decode(source));
 }

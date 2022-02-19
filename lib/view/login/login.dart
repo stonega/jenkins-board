@@ -45,7 +45,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
-                height: 40,
+                height: 100,
               ),
               Image.asset(
                 'assets/images/stay-safe.png',
@@ -62,52 +62,59 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 child: PageView(
                   controller: _pageViewController,
                   children: [
-                    Align(
-                      alignment: const Alignment(0, -0.5),
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 2, color: context.accentColor),
-                                color: context.primaryColorLight,
-                                borderRadius: BorderRadius.circular(100)),
-                            padding: const EdgeInsets.only(left: 20, right: 5),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SizedBox(
-                                  width: 200,
-                                  child: CustomTextField(
-                                    controller: _urlController,
-                                    placeHolder: 'https://jenkins.example.com/',
-                                    inputType: TextInputType.url,
-                                  ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  width: 2, color: context.accentColor),
+                              color: context.primaryColorLight,
+                              borderRadius: BorderRadius.circular(100)),
+                          padding: const EdgeInsets.only(left: 20, right: 5),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(
+                                width: 200,
+                                child: CustomTextField(
+                                  controller: _urlController,
+                                  placeHolder: 'https://jenkins.example.com/',
+                                  inputType: TextInputType.url,
                                 ),
-                                IconButton(
-                                  onPressed: _saveUrl,
-                                  splashRadius: 20,
-                                  icon: const Icon(
-                                      LineIcons.alternateLongArrowRight),
-                                )
-                              ],
+                              ),
+                              IconButton(
+                                onPressed: _saveUrl,
+                                splashRadius: 20,
+                                icon: const Icon(
+                                    LineIcons.alternateLongArrowRight),
+                              )
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        SizedBox(
+                          width: 225,
+                          child: Text(
+                            'Input the jenkins server url to get started',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: context.textColor.withOpacity(0.6),
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const Text(
-                              'Input the jenkins server url to get started')
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         InputWrapper(
                           title: 'Username',
+                          error: _error,
                           inputBox: CustomTextField(
                             controller: _usernameController,
                             placeHolder: 'Username',
@@ -115,27 +122,56 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         InputWrapper(
                           title: 'API Token',
                           inputBox: CustomTextField(
                             controller: _tokenController,
-                            placeHolder: 'Password',
+                            placeHolder: 'API Token',
                             inputType: TextInputType.visiblePassword,
                           ),
                         ),
                         const SizedBox(
-                          height: 40,
+                          height: 30,
                         ),
-                        SizedBox(
-                          width: 340,
-                          height: 50,
-                          child: CustomButton(
-                            onPressed: _submit,
-                            child: const Text(
-                              'Get Started',
-                            ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        width: 1,
+                                        color: context.primaryColorLight),
+                                    color: context.primaryColorLight),
+                                child: IconButton(
+                                  onPressed: () {
+                                    _pageViewController.animateToPage(0,
+                                        duration:
+                                            const Duration(microseconds: 300),
+                                        curve: Curves.easeIn);
+                                  },
+                                  splashRadius: 20,
+                                  icon: const Icon(
+                                      LineIcons.alternateLongArrowLeft),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: SizedBox(
+                                  height: 50,
+                                  child: CustomButton(
+                                    onPressed: _submit,
+                                    child: const Text(
+                                      'Get Started',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         )
                       ],
@@ -161,10 +197,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       return;
     }
     try {
-      await JenkinsApi.login(username, token, 'https://cicd.abmatrix.cn');
+      await JenkinsApi.login(username, token, HiveBox.getBaseUrl());
       context.go('/');
     } catch (e) {
-      setState(() => _error = 'Auth failed');
+      context.toast('Auth failed');
     }
   }
 

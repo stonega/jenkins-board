@@ -27,6 +27,7 @@ class JenkinsApi {
     HiveBox.saveToken('');
     HiveBox.saveBaseUrl('');
     HiveBox.saveJobs([]);
+    HiveBox.saveBuildTasks([]);
   }
 
   static Future<List<JobGroup>> getAllJobs() async {
@@ -72,7 +73,7 @@ class JenkinsApi {
   static Future<String> newBuild(Branch branch,
       {Map<String, dynamic>? params}) async {
     final header = await ApiService.postHeader('${branch.url}build', params);
-    return header['localtion'][0];
+    return header['location'][0];
   }
 
   static Future<BuildResult> buildDetail(String url) async {

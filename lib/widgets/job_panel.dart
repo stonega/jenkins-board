@@ -113,11 +113,11 @@ class JobPanel extends ConsumerWidget {
 
   Future _newBuild(BuildContext context, WidgetRef ref, Branch branch) async {
     try {
-      await JenkinsApi.newBuild(branch);
+      final url = await JenkinsApi.newBuild(branch);
       final task = BuildTask(
-          branchName: branch.name,
+          name: branch.name,
           branchUrl: branch.url,
-          buildUrl: '',
+          buildUrl: url,
           startTime: DateTime.now());
       ref.read(buildTasksProvider.notifier).add(task);
       _showToast(context,

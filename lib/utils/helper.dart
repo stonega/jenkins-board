@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Helper {
@@ -19,5 +20,9 @@ class Helper {
     } else {
       log('Can not launch url');
     }
+  }
+
+  static String formatDate(DateTime timestamp) {
+    return DateFormat.yMd().add_Hm().format(timestamp);
   }
 }

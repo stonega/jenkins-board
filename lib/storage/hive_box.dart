@@ -68,6 +68,7 @@ class HiveBox {
   }
 
   static List<BuildTask> getBuildTasks() {
+    // _box.put(buildTasksKey, []);
     final tasks = _box.get(buildTasksKey, defaultValue: []);
     return [
       for (var t in tasks)

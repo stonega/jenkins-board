@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jenkins_board/api/jenkins_api.dart';
-import 'package:jenkins_board/model/build_task.dart';
 import 'package:jenkins_board/provider/jobs_provider.dart';
 import 'package:jenkins_board/storage/hive_box.dart';
 import 'package:jenkins_board/utils/extensions.dart';
@@ -35,7 +34,9 @@ class HomePage extends StatelessWidget {
         children: [
           const HomeView(),
           AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300), child: _getBody()),
+            duration: const Duration(milliseconds: 300),
+            child: _getBody(),
+          ),
         ],
       ),
     );
@@ -49,7 +50,7 @@ class HomePage extends StatelessWidget {
         return ChooseJobsPage();
       case SettingType.build_detail:
         return BuildDetailPage(
-          url: buildUrl!,
+          url: buildUrl,
         );
       case SettingType.build_tasks:
         return const BuildTasksPage();

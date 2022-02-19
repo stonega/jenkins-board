@@ -25,7 +25,7 @@ extension ContextExtension on BuildContext {
   double get width => MediaQuery.of(this).size.width;
   double get height => MediaQuery.of(this).size.height;
   void toast(String title,
-      {IconData? icon, ToastGravity gravity = ToastGravity.TOP}) {
+      {IconData? icon, ToastGravity gravity = ToastGravity.BOTTOM}) {
     final fToast = FToast();
     fToast.init(this);
     fToast.showToast(
@@ -34,4 +34,9 @@ extension ContextExtension on BuildContext {
       toastDuration: const Duration(seconds: 2),
     );
   }
+}
+
+extension IntExtension on int {
+  String get toTime =>
+      '${(this ~/ 60).toString().padLeft(2, '0')}:${(truncate() % 60).toString().padLeft(2, '0')}';
 }

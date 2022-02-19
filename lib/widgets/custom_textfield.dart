@@ -5,13 +5,11 @@ import '../utils/extensions.dart';
 class InputWrapper extends StatelessWidget {
   final String title;
   final Widget inputBox;
-  final double? height;
   final String? error;
   final double horizontalPadding;
   const InputWrapper(
       {required this.title,
       required this.inputBox,
-      this.height,
       this.error,
       this.horizontalPadding = 30,
       Key? key})
@@ -35,8 +33,8 @@ class InputWrapper extends StatelessWidget {
             constraints: const BoxConstraints(minHeight: 50),
             child: Container(
               width: double.infinity,
-              height: height ?? 50,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+              alignment: Alignment.centerLeft,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6),
                   border: Border.all(

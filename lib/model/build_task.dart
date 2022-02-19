@@ -2,36 +2,52 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
+enum TaskStatus { running, fail, success, cancel }
+
 class BuildTask extends Equatable {
-  final String branchName;
+  final String name;
   final String branchUrl;
   final String buildUrl;
   final DateTime startTime;
-  BuildTask({
-    required this.branchName,
+  final DateTime? endTime;
+  final TaskStatus status;
+  const BuildTask({
+    required this.name,
     required this.branchUrl,
     required this.buildUrl,
     required this.startTime,
-    this.running = true,
+    this.endTime,
+    this.status = TaskStatus.running,
   });
-
-  bool running;
 
   Map<String, dynamic> toMap() {
     return {
-      'branchName': branchName,
+      'name': name,
       'branchUrl': branchUrl,
       'buildUrl': buildUrl,
-      'startTime': startTime.millisecondsSinceEpoch
+      'startTime': startTime.millisecondsSinceEpoch,
+      'endTime': endTime?.millisecondsSinceEpoch,
+      'status': status.name
     };
   }
 
   factory BuildTask.fromMap(Map<String, dynamic> map) {
     return BuildTask(
-        branchName: map['branchName'],
-        branchUrl: map['branchUrl'],
-        buildUrl: map['buildUrl'],
-        startTime: DateTime.fromMillisecondsSinceEpoch(map['startTime']));
+      name: map['name'],
+      branchUrl: map['branchUrl'],
+      buildUrl: map['buildUrl'],
+      startTime: DateTime.fromMillisecondsSinceEpoch(
+        map['startTime'],
+      ),
+      endTime: map['endTime'] == null
+          ? null
+          : DateTime.fromMillisecondsSinceEpoch(
+              map['endTime'],
+            ),
+      status: TaskStatus.values.byName(
+        map['status'],
+      ),
+    );
   }
 
   String toJson() => json.encode(toMap());
@@ -43,18 +59,20 @@ class BuildTask extends Equatable {
   List<Object?> get props => ['branchUrl', 'buildUrl'];
 
   BuildTask copyWith({
-    String? branchName,
+    String? name,
     String? branchUrl,
     String? buildUrl,
     DateTime? startTime,
-    bool? running,
+    DateTime? endTime,
+    TaskStatus? status,
   }) {
     return BuildTask(
-      branchName: branchName ?? this.branchName,
+      name: name ?? this.name,
       branchUrl: branchUrl ?? this.branchUrl,
       buildUrl: buildUrl ?? this.buildUrl,
       startTime: startTime ?? this.startTime,
-      running: running ?? this.running,
+      endTime: endTime ?? this.endTime,
+      status: status ?? this.status,
     );
   }
 }

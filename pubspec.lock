@@ -546,6 +546,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.2.0"
+  reorderables:
+    dependency: "direct main"
+    description:
+      name: reorderables
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.4.2"
   riverpod:
     dependency: transitive
     description:

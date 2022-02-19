@@ -67,6 +67,7 @@ class BuildTasksNotifier extends StateNotifier<List<BuildTask>> {
         title: t.name,
         subtitle: t.startTime.toIso8601String(),
         body: status.name,
+        silent: false,
       );
       final localNotifier = LocalNotifier.instance;
       await localNotifier.notify(notification);

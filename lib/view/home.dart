@@ -15,6 +15,7 @@ import 'package:jenkins_board/widgets/build_task_button.dart';
 import 'package:jenkins_board/widgets/custom_button.dart';
 import 'package:jenkins_board/widgets/job_panel.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:reorderables/reorderables.dart';
 
 enum SettingType { choose_jobs, settings, build_detail, build_tasks, undefined }
 
@@ -155,7 +156,8 @@ class HomeView extends ConsumerWidget {
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(15, 15, 30, 15),
-          child: Wrap(
+          child: ReorderableWrap(
+            onReorder: ref.read(jobsProvider.notifier).reOrder,
             spacing: 20,
             runSpacing: 20,
             children: [for (var j in jobs) JobPanel(job: j)],

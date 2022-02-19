@@ -10,8 +10,7 @@ Jenkins desktop.
   + hive
 * State management
   + riverpod
-* Download
-  + dio
-
+* Notify
+  + local_notifier
 ## Screenshots
 ![](assets/screenshots/homepage.png)

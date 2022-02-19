@@ -13,6 +13,13 @@ class JobsNotifier extends StateNotifier<List<Job>> {
     save();
   }
 
+  void reOrder(int oldIndex, int newIndex) {
+    final job = state.removeAt(oldIndex);
+    state.insert(newIndex, job);
+    state = [...state];
+    save();
+  }
+
   void remove(Job job) {
     state = [
       for (var j in state)

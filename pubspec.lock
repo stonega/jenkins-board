@@ -392,6 +392,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.1"
+  local_notifier:
+    dependency: "direct main"
+    description:
+      name: local_notifier
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.0"
   logging:
     dependency: transitive
     description:
@@ -705,6 +712,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.2"
+  uuid:
+    dependency: transitive
+    description:
+      name: uuid
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.0.5"
   vector_math:
     dependency: transitive
     description:

@@ -56,7 +56,7 @@ class BuildTask extends Equatable {
       BuildTask.fromMap(json.decode(source));
 
   @override
-  List<Object?> get props => ['branchUrl', 'buildUrl'];
+  List<Object?> get props => ['branchUrl', 'buildUrl', 'status'];
 
   BuildTask copyWith({
     String? name,

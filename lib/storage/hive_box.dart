@@ -72,8 +72,8 @@ class HiveBox {
     final tasks = _box.get(buildTasksKey, defaultValue: []);
     return [
       for (var t in tasks)
-        BuildTask.fromMap(
-          Map<String, dynamic>.from(t),
+        BuildTask.fromJson(
+          t,
         ),
     ];
   }

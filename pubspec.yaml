@@ -24,6 +24,7 @@ dependencies:
   equatable: ^2.0.3
   intl: ^0.17.0
   google_fonts: ^2.2.0
+  local_notifier: ^0.1.0
 
 dev_dependencies:
   freezed: ^1.0.1

@@ -33,7 +33,7 @@ class QueueItem {
   factory QueueItem.fromMap(Map<String, dynamic> map) {
     return QueueItem(
       buildable: map['buildable'],
-      cancelled: map['cancelled'],
+      cancelled: map['cancelled'] ?? false,
       why: map['why'],
       id: map['id'],
       inQueueSince: map['inQueueSince'],

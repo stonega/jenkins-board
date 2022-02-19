@@ -5,8 +5,9 @@ import 'package:jenkins_board/widgets/build_task_tile.dart';
 import 'package:jenkins_board/widgets/setting_wrapper.dart';
 
 class BuildTasksPage extends ConsumerWidget {
-  const BuildTasksPage({Key? key}) : super(key: key);
+  BuildTasksPage({Key? key}) : super(key: key);
 
+  final ScrollController _controller = ScrollController();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final buildTasks = ref.watch(buildTasksProvider);
@@ -15,6 +16,7 @@ class BuildTasksPage extends ConsumerWidget {
         child: SizedBox(
           width: 600,
           child: ListView(
+            controller: _controller,
             children: [for (var t in buildTasks) BuildTaskTile(t)],
           ),
         ),

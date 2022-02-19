@@ -53,7 +53,7 @@ class HomePage extends StatelessWidget {
           url: buildUrl,
         );
       case SettingType.build_tasks:
-        return const BuildTasksPage();
+        return BuildTasksPage();
       default:
         return const Center();
     }

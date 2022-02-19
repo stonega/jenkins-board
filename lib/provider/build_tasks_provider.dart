@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jenkins_board/api/jenkins_api.dart';
 import 'package:jenkins_board/model/build_task.dart';
 import 'package:jenkins_board/storage/hive_box.dart';
+import 'package:local_notifier/local_notifier.dart';
 
 final buildTasksProvider =
     StateNotifierProvider<BuildTasksNotifier, List<BuildTask>>(
@@ -46,26 +45,36 @@ class BuildTasksNotifier extends StateNotifier<List<BuildTask>> {
   }
 
   void tick(_) async {
-    for (var t in state) {
-      if (t.status == TaskStatus.running) {
-        final result = await JenkinsApi.getQueueItem(t.buildUrl);
-        TaskStatus? status;
-        log(result.toJson());
-        if (!result.buildable) {
-          if (result.cancelled) {
-            status = TaskStatus.cancel;
-          } else if (result.color == 'red') {
-            status = TaskStatus.fail;
-          } else {
-            status = TaskStatus.success;
-          }
-        }
-        final task = t.copyWith(
-          status: status,
-        );
-        update(task);
+    state = [
+      for (var t in state)
+        if (t.status == TaskStatus.running) await _updateTaskStatus(t) else t
+    ];
+    save();
+  }
+
+  Future<BuildTask> _updateTaskStatus(BuildTask t) async {
+    final result = await JenkinsApi.getQueueItem(t.buildUrl);
+    TaskStatus? status;
+    if (!result.buildable) {
+      if (result.cancelled) {
+        status = TaskStatus.cancel;
+      } else if (result.color == 'red') {
+        status = TaskStatus.fail;
+      } else {
+        status = TaskStatus.success;
       }
+      final notification = LocalNotification(
+        title: t.name,
+        subtitle: t.startTime.toIso8601String(),
+        body: status.name,
+      );
+      final localNotifier = LocalNotifier.instance;
+      await localNotifier.notify(notification);
     }
+    final task = t.copyWith(
+      status: status,
+    );
+    return task;
   }
 
   void startTimer() {

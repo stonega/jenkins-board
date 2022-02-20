@@ -79,8 +79,8 @@ class JenkinsApi {
   static Future<BuildResult> buildDetail(String url) async {
     final result = await ApiService.get('${url}api/json');
     final log = await ApiService.get('${url}consoleText');
-    final buildResult = BuildResult.fromMap(result);
-    buildResult.consoleLog = log;
+    var buildResult = BuildResult.fromMap(result);
+    buildResult = buildResult.copyWith(consoleLog: log);
     return buildResult;
   }
 }

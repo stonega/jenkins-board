@@ -11,9 +11,9 @@ class BuildResult extends Equatable {
   final List<String> commits;
   final String? preBuild;
   final String? nextBuild;
-  String? consoleLog;
+  final String? consoleLog;
 
-  BuildResult(
+  const BuildResult(
       {required this.duration,
       required this.id,
       required this.result,
@@ -61,4 +61,28 @@ class BuildResult extends Equatable {
 
   @override
   List<Object?> get props => ['userName', 'id', 'duration', 'timestamp'];
+
+  BuildResult copyWith({
+    Duration? duration,
+    int? id,
+    DateTime? timestamp,
+    String? displayName,
+    String? result,
+    List<String>? commits,
+    String? preBuild,
+    String? nextBuild,
+    String? consoleLog,
+  }) {
+    return BuildResult(
+      duration: duration ?? this.duration,
+      id: id ?? this.id,
+      timestamp: timestamp ?? this.timestamp,
+      displayName: displayName ?? this.displayName,
+      result: result ?? this.result,
+      commits: commits ?? this.commits,
+      preBuild: preBuild ?? this.preBuild,
+      nextBuild: nextBuild ?? this.nextBuild,
+      consoleLog: consoleLog ?? this.consoleLog,
+    );
+  }
 }

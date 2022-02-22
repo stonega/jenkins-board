@@ -67,7 +67,24 @@ class ApiService {
 
   static Future postHeader(String url,
       [Map<String, dynamic>? data, String? token]) async {
-    var response = await dio.post(url, data: data);
+    Response response;
+    if (data == null) {
+      response = await dio.post(url);
+    } else {
+      final formData = FormData();
+      data.forEach(
+        (key, value) {
+          formData.fields
+            ..add(
+              MapEntry('name', key),
+            )
+            ..add(
+              MapEntry('value', value.toString()),
+            );
+        },
+      );
+      response = await dio.post(url + 'WithParameters', data: formData);
+    }
     return response.headers;
   }
 

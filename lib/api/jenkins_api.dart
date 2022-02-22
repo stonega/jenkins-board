@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:jenkins_board/api/api_service.dart';
 import 'package:jenkins_board/api/models/queue_item.dart';
 import 'package:jenkins_board/model/branch.dart';
+import 'package:jenkins_board/model/build_param.dart';
 import 'package:jenkins_board/model/build_result.dart';
 import 'package:jenkins_board/model/job_group.dart';
 import 'package:jenkins_board/storage/hive_box.dart';
@@ -71,8 +73,9 @@ class JenkinsApi {
   }
 
   static Future<String> newBuild(Branch branch,
-      {Map<String, dynamic>? params}) async {
-    final header = await ApiService.postHeader('${branch.url}build', params);
+      { Map<String, dynamic>? params}) async {
+    final header =
+        await ApiService.postHeader('${branch.url}build', params);
     return header['location'][0];
   }
 
@@ -82,5 +85,16 @@ class JenkinsApi {
     var buildResult = BuildResult.fromMap(result);
     buildResult = buildResult.copyWith(consoleLog: log);
     return buildResult;
+  }
+
+  static Future<List<BuildParam>> getBranchBuildParams(String url) async {
+    final result = await ApiService.get('${url}api/json');
+    if (result['property'].length > 1 && result['property']?[1] != null) {
+      return [
+        for (var p in result['property'][1]['parameterDefinitions'])
+          BuildParam.fromMap(p)
+      ];
+    }
+    return [];
   }
 }

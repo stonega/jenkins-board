@@ -26,6 +26,7 @@ dependencies:
   google_fonts: ^2.2.0
   local_notifier: ^0.1.0
   reorderables: ^0.4.2
+  popover: ^0.2.6+3
 
 dev_dependencies:
   freezed: ^1.0.1

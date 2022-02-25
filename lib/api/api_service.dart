@@ -56,7 +56,13 @@ class ApiService {
     } else {
       response = await dio.get(url);
     }
-    return response.data;
+    if (response.statusCode == 200) {
+      return response.data;
+    } else if (response.statusCode == 404) {
+      return {
+        
+      };
+    }
   }
 
   static Future post(String url,

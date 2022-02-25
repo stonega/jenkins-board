@@ -7,6 +7,7 @@ import 'package:jenkins_board/model/build_param.dart';
 import 'package:jenkins_board/model/build_task.dart';
 import 'package:jenkins_board/model/job.dart';
 import 'package:jenkins_board/provider/build_tasks_provider.dart';
+import 'package:jenkins_board/provider/jobs_provider.dart';
 import 'package:jenkins_board/utils/extensions.dart';
 import 'package:jenkins_board/widgets/custom_button.dart';
 import 'package:jenkins_board/widgets/running_widget.dart';
@@ -53,7 +54,10 @@ class JobPanel extends ConsumerWidget {
                     shrinkWrap: true,
                     itemCount: data.length,
                     itemBuilder: (context, index) {
-                      return _JobItem(data[index]);
+                      return _JobItem(
+                        data[index],
+                        jobName: job.name,
+                      );
                     },
                   ),
                 ),
@@ -76,8 +80,10 @@ class JobPanel extends ConsumerWidget {
 }
 
 class _JobItem extends ConsumerStatefulWidget {
-  const _JobItem(this.branch, {Key? key}) : super(key: key);
+  const _JobItem(this.branch, {required this.jobName, Key? key})
+      : super(key: key);
   final Branch branch;
+  final String jobName;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _JobItemState();
@@ -129,11 +135,13 @@ class _JobItemState extends ConsumerState<_JobItem> {
             builder: (context) {
               if (_loadBuilding) {
                 return const Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(10),
                   child: SizedBox(
                     height: 20,
                     width: 20,
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1,
+                    ),
                   ),
                 );
               }
@@ -160,7 +168,7 @@ class _JobItemState extends ConsumerState<_JobItem> {
       final buildParams =
           await JenkinsApi.getBranchBuildParams(widget.branch.url);
       if (buildParams.isEmpty) {
-        await _newBuild(context, ref, widget.branch);
+        await _newBuild(context, ref, widget.branch, widget.jobName);
       } else {
         showPopover(
           context: context,
@@ -169,13 +177,14 @@ class _JobItemState extends ConsumerState<_JobItem> {
           bodyBuilder: (context) {
             return Padding(
               padding: const EdgeInsets.all(20.0),
-              child: _RunBuildWidget(widget.branch, buildParams),
+              child:
+                  _RunBuildWidget(widget.branch, buildParams, widget.jobName),
             );
           },
           shadow: const [
             BoxShadow(
                 color: Colors.black12,
-                spreadRadius: 5,
+                spreadRadius: 2,
                 blurRadius: 5,
                 offset: Offset(-1, 1))
           ],
@@ -197,26 +206,43 @@ class _JobItemState extends ConsumerState<_JobItem> {
   }
 }
 
-class _RunBuildWidget extends ConsumerWidget {
-  _RunBuildWidget(this.branch, this.buildParams, {Key? key}) : super(key: key);
+class _RunBuildWidget extends ConsumerStatefulWidget {
+  const _RunBuildWidget(this.branch, this.buildParams, this.jobName, {Key? key})
+      : super(key: key);
   final Branch branch;
   final List<BuildParam> buildParams;
+  final String jobName;
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => __RunBuildState();
+}
 
+class __RunBuildState extends ConsumerState<_RunBuildWidget> {
   final _buildParam = <String, dynamic>{};
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+    for (var param in widget.buildParams) {
+      _buildParam[param.name] = param.defautlValue;
+    }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
       width: 100,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ...[for (var p in buildParams) _paramWidget(p)],
+          ...[for (var p in widget.buildParams) _paramWidget(p)],
+          const SizedBox(
+            height: 20,
+          ),
           CustomButton(
             onPressed: () async {
               try {
-                await _newBuild(context, ref, branch, buildParam: _buildParam);
+                await _newBuild(context, ref, widget.branch, widget.jobName,
+                    buildParam: _buildParam);
               } catch (e) {
-                print(e.toString());
                 context.toast('Build Not started, please try again');
               }
               context.pop();
@@ -232,7 +258,6 @@ class _RunBuildWidget extends ConsumerWidget {
   }
 
   Widget _paramWidget(BuildParam buildParam) {
-    _buildParam[buildParam.name] = buildParam.defautlValue;
     switch (buildParam.type) {
       case 'ChoiceParameterDefinition':
         return Column(
@@ -244,15 +269,19 @@ class _RunBuildWidget extends ConsumerWidget {
                 for (var v in buildParam.choices!)
                   Row(
                     children: [
-                      Radio(
-                        groupValue: _buildParam[buildParam.name],
-                        value: v,
-                        onChanged: (value) {
-                          _buildParam[buildParam.name] = value;
-                        },
-                      ),
+                      Text(v),
                       const Spacer(),
-                      Text(v)
+                      Transform.scale(
+                        scale: 0.7,
+                        child: Radio(
+                          groupValue: _buildParam[buildParam.name],
+                          value: v,
+                          onChanged: (value) {
+                            setState(
+                                () => _buildParam[buildParam.name] = value);
+                          },
+                        ),
+                      ),
                     ],
                   ),
               ],
@@ -262,11 +291,14 @@ class _RunBuildWidget extends ConsumerWidget {
           children: [
             Text(buildParam.name),
             const Spacer(),
-            Switch(
-              value: buildParam.defautlValue as bool,
-              onChanged: (value) {
-                _buildParam[buildParam.name] = value;
-              },
+            Transform.scale(
+              scale: 0.7,
+              child: Switch(
+                value: _buildParam[buildParam.name],
+                onChanged: (value) {
+                  setState(() => _buildParam[buildParam.name] = value);
+                },
+              ),
             ),
           ],
         );
@@ -276,14 +308,16 @@ class _RunBuildWidget extends ConsumerWidget {
   }
 }
 
-Future _newBuild(BuildContext context, WidgetRef ref, Branch branch,
+Future _newBuild(
+    BuildContext context, WidgetRef ref, Branch branch, String jobName,
     {Map<String, dynamic>? buildParam}) async {
   final url = await JenkinsApi.newBuild(branch, params: buildParam);
   final task = BuildTask(
-      name: branch.name,
+      name: jobName + '-' + branch.name,
       branchUrl: branch.url,
       buildUrl: url,
       startTime: DateTime.now());
   ref.read(buildTasksProvider.notifier).add(task);
   context.toast('Build started, good luck!', icon: LineIcons.running);
+  ref.read(jobsProvider.notifier).refresh();
 }

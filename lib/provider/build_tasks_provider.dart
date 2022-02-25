@@ -55,7 +55,7 @@ class BuildTasksNotifier extends StateNotifier<List<BuildTask>> {
   Future<BuildTask> _updateTaskStatus(BuildTask t) async {
     final result = await JenkinsApi.getQueueItem(t.buildUrl);
     TaskStatus? status;
-    if (!result.buildable) {
+    if (t.status == TaskStatus.running) {
       if (result.cancelled) {
         status = TaskStatus.cancel;
       } else if (result.color == 'red') {
@@ -79,7 +79,7 @@ class BuildTasksNotifier extends StateNotifier<List<BuildTask>> {
   }
 
   void startTimer() {
-    timer = Timer.periodic(const Duration(seconds: 1), tick);
+    timer = Timer.periodic(const Duration(seconds: 2), tick);
   }
 
   void stopTimer() {

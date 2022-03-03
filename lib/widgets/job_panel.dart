@@ -312,9 +312,11 @@ Future _newBuild(
     BuildContext context, WidgetRef ref, Branch branch, String jobName,
     {Map<String, dynamic>? buildParam}) async {
   final url = await JenkinsApi.newBuild(branch, params: buildParam);
+  final buildNumber = await JenkinsApi.getNextBuildNumber(branch.url);
   final task = BuildTask(
       name: jobName + '-' + branch.name,
       branchUrl: branch.url,
+      buildNumber: buildNumber,
       buildUrl: url,
       startTime: DateTime.now());
   ref.read(buildTasksProvider.notifier).add(task);

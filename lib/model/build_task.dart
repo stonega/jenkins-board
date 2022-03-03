@@ -8,6 +8,7 @@ class BuildTask extends Equatable {
   final String name;
   final String branchUrl;
   final String buildUrl;
+  final int buildNumber;
   final DateTime startTime;
   final DateTime? endTime;
   final TaskStatus status;
@@ -16,6 +17,7 @@ class BuildTask extends Equatable {
     required this.branchUrl,
     required this.buildUrl,
     required this.startTime,
+    required this.buildNumber,
     this.endTime,
     this.status = TaskStatus.running,
   });
@@ -25,6 +27,7 @@ class BuildTask extends Equatable {
       'name': name,
       'branchUrl': branchUrl,
       'buildUrl': buildUrl,
+      'buildNumber': buildNumber,
       'startTime': startTime.millisecondsSinceEpoch,
       'endTime': endTime?.millisecondsSinceEpoch,
       'status': status.name
@@ -39,6 +42,7 @@ class BuildTask extends Equatable {
       startTime: DateTime.fromMillisecondsSinceEpoch(
         map['startTime'],
       ),
+      buildNumber: map['buildNumber'],
       endTime: map['endTime'] == null
           ? null
           : DateTime.fromMillisecondsSinceEpoch(
@@ -68,6 +72,7 @@ class BuildTask extends Equatable {
   }) {
     return BuildTask(
       name: name ?? this.name,
+      buildNumber: buildNumber,
       branchUrl: branchUrl ?? this.branchUrl,
       buildUrl: buildUrl ?? this.buildUrl,
       startTime: startTime ?? this.startTime,

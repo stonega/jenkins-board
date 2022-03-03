@@ -7,10 +7,10 @@ import 'package:local_notifier/local_notifier.dart';
 
 final buildTasksProvider =
     StateNotifierProvider<BuildTasksNotifier, List<BuildTask>>(
-        (ref) => BuildTasksNotifier());
+        (ref) => BuildTasksNotifier(ref));
 
 class BuildTasksNotifier extends StateNotifier<List<BuildTask>> {
-  BuildTasksNotifier() : super(HiveBox.getBuildTasks()) {
+  BuildTasksNotifier(ref) : super(HiveBox.getBuildTasks()) {
     startTimer();
   }
 
@@ -53,33 +53,40 @@ class BuildTasksNotifier extends StateNotifier<List<BuildTask>> {
   }
 
   Future<BuildTask> _updateTaskStatus(BuildTask t) async {
-    final result = await JenkinsApi.getQueueItem(t.buildUrl);
-    TaskStatus? status;
-    if (t.status == TaskStatus.running) {
-      if (result.cancelled) {
-        status = TaskStatus.cancel;
-      } else if (result.color == 'red') {
-        status = TaskStatus.fail;
-      } else {
-        status = TaskStatus.success;
+    try {
+      final result =
+          await JenkinsApi.buildDetail('${t.branchUrl}${t.buildNumber}/');
+      TaskStatus? status;
+      if (t.status == TaskStatus.running) {
+        if (result.result == 'RUNNING') {
+          return t;
+        }
+        if (result.result == 'ABORTED') {
+          status = TaskStatus.cancel;
+        } else if (result.result == 'FAILURE') {
+          status = TaskStatus.fail;
+        } else if (result.result == 'SUCCESS') {
+          status = TaskStatus.success;
+        }
+        final notification = LocalNotification(
+          title: t.name,
+          subtitle: result.result,
+          silent: false,
+        );
+        final localNotifier = LocalNotifier.instance;
+        await localNotifier.notify(notification);
       }
-      final notification = LocalNotification(
-        title: t.name,
-        subtitle: t.startTime.toIso8601String(),
-        body: status.name,
-        silent: false,
+      final task = t.copyWith(
+        status: status,
       );
-      final localNotifier = LocalNotifier.instance;
-      await localNotifier.notify(notification);
+      return task;
+    } catch (e) {
+      return t;
     }
-    final task = t.copyWith(
-      status: status,
-    );
-    return task;
   }
 
   void startTimer() {
-    timer = Timer.periodic(const Duration(seconds: 2), tick);
+    timer = Timer.periodic(const Duration(seconds: 5), tick);
   }
 
   void stopTimer() {

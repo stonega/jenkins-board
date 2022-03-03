@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:jenkins_board/api/api_service.dart';
-import 'package:jenkins_board/api/models/queue_item.dart';
+import 'package:jenkins_board/model/queue_item.dart';
 import 'package:jenkins_board/model/branch.dart';
 import 'package:jenkins_board/model/build_param.dart';
 import 'package:jenkins_board/model/build_result.dart';
@@ -60,6 +60,11 @@ class JenkinsApi {
     return QueueItem.fromMap(res);
   }
 
+  static Future<List<QueueItem>> getQueue() async {
+    final res = await ApiService.get('/queue/api/json');
+    return [for (var i in res['items']) QueueItem.fromMap(i)];
+  }
+
   static Future<String?> recentBuildUrl(
     String url,
   ) async {
@@ -73,9 +78,8 @@ class JenkinsApi {
   }
 
   static Future<String> newBuild(Branch branch,
-      { Map<String, dynamic>? params}) async {
-    final header =
-        await ApiService.postHeader('${branch.url}build', params);
+      {Map<String, dynamic>? params}) async {
+    final header = await ApiService.postHeader('${branch.url}build', params);
     return header['location'][0];
   }
 
@@ -85,6 +89,11 @@ class JenkinsApi {
     var buildResult = BuildResult.fromMap(result);
     buildResult = buildResult.copyWith(consoleLog: log);
     return buildResult;
+  }
+
+  static Future<int> getNextBuildNumber(String url) async {
+    final result = await ApiService.get('${url}api/json');
+    return result['nextBuildNumber'];
   }
 
   static Future<List<BuildParam>> getBranchBuildParams(String url) async {

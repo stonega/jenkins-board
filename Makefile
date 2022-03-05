@@ -13,6 +13,8 @@ deb:
 		&& cp -r linux/DEBIAN deb-struct/\
 		&& sed -i 's|me.stonegate.jenkins_board|jenkins_board|' $(USR_SHARE)/appdata/jenkins_board.appdata.xml\
 		&& dpkg-deb -b deb-struct build/jenkins-board-linux-x86_64.deb
+		&& alien --target=x86_64 -r build/jenkins-board-linux-x86_64.deb
+		&& cp *.rpm build/
 
 tar:
 		mkdir -p $(TEMP_DIR)\
@@ -24,7 +26,7 @@ tar:
 		&& rm -rf $(TEMP_DIR)
 
 appimage:
-				 appimage-builder --recipe AppImageBuilder.yml\
+				 appimage-builder --recipe linux/AppImageBuilder.yml\
 				 && mv Jenkins\ Board-*-x86_64.AppImage build/jenkins-board-linux-x86_64.AppImage
 
 aursrcinfo:

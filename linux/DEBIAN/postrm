@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+echo Removing symlink
+
+rm /usr/bin/jenkins_board
+
+exit 0

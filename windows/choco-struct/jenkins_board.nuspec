@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Do not remove this test for UTF-8: if “Ω” doesn’t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <!-- == PACKAGE SPECIFIC SECTION == -->
+    <id>jenkins_board</id>
+    <version>0.1.0</version>
+    <packageSourceUrl>https://github.com/stonega/jenkins-bard/tree/main/windows/choco-struct</packageSourceUrl>
+    <owners>Stone</owners>
+    <!-- ============================== -->
+
+    <!-- == SOFTWARE SPECIFIC SECTION == -->
+    <title>Jenkins Board (Install)</title>
+    <authors>Stone</authors>
+    <projectUrl>https://github.com/stone/jenkins-board/</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/stonega/jenkins-board/main/assets/images/logo.png</iconUrl>
+    <copyright>2022 Jenkins Board</copyright>
+    <!-- If there is a license Url available, it is required for the community feed -->
+    <licenseUrl>https://github.com/stonega/jenkins-board/blob/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <projectSourceUrl>https://github.com/stonega/jenkins-board</projectSourceUrl>
+    <docsUrl>https://github.com/stonega/jenkins-board#readme</docsUrl>
+    <bugTrackerUrl>https://github.com/stonega/jenkins-board/issues/new</bugTrackerUrl>
+    <tags>jenkins develop</tags>
+    <summary>Jenkins desktop app</summary>
+    <description>
+      Jenkins desktop app
+    </description>
+    <releaseNotes>https://github.com/stonega/jenkins-board/releases/tag/v1.2.0</releaseNotes>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>

@@ -45,10 +45,10 @@ innoinstall:
 		 				powershell build\installer.exe /verysilent /allusers /dir=build\iscc
 
 inno:
-		 powershell build\iscc\iscc.exe scripts\windows-setup-creator.iss
+		 powershell build\iscc\iscc.exe windows\windows-setup-creator.iss
 
 choco:
-			powershell cp build\installer\jenkins-board-windows-x86_64-setup.exe choco-struct\tools
+			powershell cp build\installer\jenkins-board-windows-x86_64-setup.exe windows\choco-struct\tools
 			powershell choco pack .\choco-struct\jenkins-board.nuspec  --outputdirectory build
 
 gensums:

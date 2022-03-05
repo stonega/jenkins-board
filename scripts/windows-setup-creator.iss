@@ -41,7 +41,7 @@ Source: "..\build\windows\runner\Release\{#MyAppExeName}"; DestDir: "{app}"; Fla
 Source: "..\build\windows\runner\Release\flutter_windows.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\build\windows\runner\Release\jenkins_board.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\build\windows\runner\Release\url_launcher_windows_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\build\windows\runner\Release\local_notification_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\build\windows\runner\Release\local_notifier_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\build\windows\runner\Release\data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

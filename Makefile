@@ -49,7 +49,7 @@ inno:
 
 choco:
 			powershell cp build\installer\jenkins-board-windows-x86_64-setup.exe windows\choco-struct\tools
-			powershell choco pack windows\choco-struct\jenkins-board.nuspec  --outputdirectory build
+			powershell choco pack windows\choco-struct\jenkins_board.nuspec  --outputdirectory build
 
 gensums:
-				sh -c scripts/gensums.sh
+				sh -c gensums.sh

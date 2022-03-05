@@ -1,7 +1,7 @@
 ﻿$ErrorActionPreference = 'Stop'; # stop on all errors
 
 $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
-$fileLocation = Join-Path $toolsDir 'Jenkins-board-windows-x86_64-setup.exe'
+$fileLocation = Join-Path $toolsDir 'jenkins-board-windows-x86_64-setup.exe'
 
 $packageArgs = @{
   packageName   = $env:ChocolateyPackageName

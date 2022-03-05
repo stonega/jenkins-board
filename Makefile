@@ -14,7 +14,7 @@ deb:
 		&& sed -i 's|me.stonegate.jenkins_board|jenkins_board|' $(USR_SHARE)/appdata/jenkins_board.appdata.xml\
 		&& dpkg-deb -b deb-struct build/jenkins-board-linux-x86_64.deb\
 		&& alien --target=x86_64 -r build/jenkins-board-linux-x86_64.deb\
-		&& cp *.rpm build/
+		&& cp *.rpm build/jenkins-board-linux-x86_64.rpm
 
 tar:
 		mkdir -p $(TEMP_DIR)\

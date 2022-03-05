@@ -31,6 +31,7 @@ jobs:
           name: Jenkins-Board-Linux-Bundle
           path: |
             build/jenkins-board-linux-x86_64.deb
+            build/jenkins-board-linux-x86_64.rpm
             build/jenkins-board-linux-x86_64.tar.xz
             build/jenkins-board-linux-x86_64.AppImage
   build_windows:

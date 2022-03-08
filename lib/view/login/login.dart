@@ -23,6 +23,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   late TextEditingController _urlController;
   late PageController _pageViewController;
   late String _error;
+  bool _loading = false;
 
   @override
   void initState() {
@@ -164,6 +165,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 child: SizedBox(
                                   height: 50,
                                   child: CustomButton(
+                                    loading: _loading,
                                     onPressed: _submit,
                                     child: const Text(
                                       'Get Started',
@@ -196,11 +198,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       setState(() => _error = 'Username can not be empty');
       return;
     }
+    setState(() {
+      _loading = true;
+    });
     try {
       await JenkinsApi.login(username, token, HiveBox.getBaseUrl());
       context.go('/');
     } catch (e) {
       context.toast('Auth failed');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
     }
   }
 

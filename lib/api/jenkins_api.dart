@@ -25,11 +25,11 @@ class JenkinsApi {
     await HiveBox.saveUsername(userInfo['fullName']);
   }
 
-  static logout() {
-    HiveBox.saveToken('');
-    HiveBox.saveBaseUrl('');
-    HiveBox.saveJobs([]);
-    HiveBox.saveBuildTasks([]);
+  static logout() async {
+    await HiveBox.saveToken('');
+    await HiveBox.saveBaseUrl('');
+    await HiveBox.saveJobs([]);
+    await HiveBox.saveBuildTasks([]);
   }
 
   static Future<List<JobGroup>> getAllJobs() async {

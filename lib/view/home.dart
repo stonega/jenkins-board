@@ -140,7 +140,7 @@ class HomeView extends ConsumerWidget {
                       color: context.primaryColorDark,
                     ),
                     IconButton(
-                      onPressed: () => _logout(context),
+                      onPressed: () async => await _logout(context),
                       splashRadius: 20,
                       icon: Icon(
                         LineIcons.shareSquare,
@@ -167,8 +167,8 @@ class HomeView extends ConsumerWidget {
     );
   }
 
-  void _logout(BuildContext context) {
-    JenkinsApi.logout();
+  Future _logout(BuildContext context) async {
+    await JenkinsApi.logout();
     context.push('/');
   }
 }

@@ -82,7 +82,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 width: 200,
                                 child: CustomTextField(
                                   controller: _urlController,
-                                  placeHolder: 'https://jenkins.example.com/',
+                                  placeHolder: 'https://example.com/',
                                   inputType: TextInputType.url,
                                 ),
                               ),
@@ -222,6 +222,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       return;
     }
     HiveBox.saveBaseUrl(url);
+    print(url);
     _pageViewController.animateToPage(1,
         duration: const Duration(microseconds: 300), curve: Curves.easeIn);
   }

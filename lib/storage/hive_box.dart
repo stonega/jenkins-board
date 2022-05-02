@@ -40,7 +40,7 @@ class HiveBox {
   }
 
   static saveBaseUrl(String url) {
-    return _box.put(tokenKey, url);
+    return _box.put(baseUrlKey, url);
   }
 
   static saveJobs(List<Job> jobs) {

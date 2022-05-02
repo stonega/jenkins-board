@@ -36,7 +36,7 @@ class HiveBox {
   }
 
   static String getBaseUrl() {
-    return _box.get(baseUrlKey, defaultValue: 'https://cicd.abmatrix.cn/');
+    return _box.get(baseUrlKey, defaultValue: 'https://example.com/');
   }
 
   static saveBaseUrl(String url) {

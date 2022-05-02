@@ -58,6 +58,13 @@ class BuildTaskTile extends StatelessWidget {
           ),
           if (task.status == TaskStatus.running)
             TimerBuilder(startTime: task.startTime),
+          if (task.status == TaskStatus.running)
+            TextButton(
+              onPressed: () {
+                JenkinsApi.abortBuild(task);
+              },
+              child: const Text('Stop'),
+            )
         ],
       ),
     );

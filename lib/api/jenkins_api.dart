@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:jenkins_board/api/api_service.dart';
+import 'package:jenkins_board/model/build_task.dart';
 import 'package:jenkins_board/model/queue_item.dart';
 import 'package:jenkins_board/model/branch.dart';
 import 'package:jenkins_board/model/build_param.dart';
@@ -81,6 +81,11 @@ class JenkinsApi {
       {Map<String, dynamic>? params}) async {
     final header = await ApiService.postHeader('${branch.url}build', params);
     return header['location'][0];
+  }
+
+  static Future<void> abortBuild(BuildTask task) async {
+    final url = '${task.branchUrl}${task.buildNumber}/stop';
+    return await ApiService.post(url);
   }
 
   static Future<BuildResult> buildDetail(String url) async {

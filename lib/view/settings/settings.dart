@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jenkins_board/api/jenkins_api.dart';
 import 'package:jenkins_board/provider/app_state_provider.dart';
 import 'package:jenkins_board/utils/extensions.dart';
 import 'package:jenkins_board/utils/helper.dart';
+import 'package:jenkins_board/widgets/custom_button.dart';
+import 'package:jenkins_board/widgets/custom_textfield.dart';
 import 'package:jenkins_board/widgets/setting_wrapper.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -56,6 +59,14 @@ class SettingsPage extends ConsumerWidget {
               const SizedBox(
                 height: 20,
               ),
+              Text('Update token', style: context.headline5),
+              const SizedBox(
+                height: 10,
+              ),
+              const RegenerateTokenWidget(),
+              const SizedBox(
+                height: 20,
+              ),
               Text(
                 'About',
                 style: context.headline5,
@@ -89,5 +100,100 @@ class SettingsPage extends ConsumerWidget {
         ),
       ),
     );
+  }
+}
+
+class RegenerateTokenWidget extends StatefulWidget {
+  const RegenerateTokenWidget({Key? key}) : super(key: key);
+
+  @override
+  State<RegenerateTokenWidget> createState() => _RegenerateTokenWidgetState();
+}
+
+class _RegenerateTokenWidgetState extends State<RegenerateTokenWidget> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  late String _error;
+  late bool _loading;
+
+  @override
+  void initState() {
+    super.initState();
+    _error = '';
+    _loading = false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 200,
+          child: InputWrapper(
+            error: _error,
+            horizontalPadding: 0,
+            compact: true,
+            inputBox: CustomTextField(
+              controller: _usernameController,
+              placeHolder: 'Username',
+              inputType: TextInputType.name,
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 260,
+          child: InputWrapper(
+            error: '',
+            compact: true,
+            inputBox: CustomTextField(
+              obscureText: true,
+              controller: _passwordController,
+              placeHolder: 'Passsword',
+              inputType: TextInputType.visiblePassword,
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 80,
+          height: 40,
+          child: CustomButton(
+            loading: _loading,
+            onPressed: _submit,
+            child: const Text('Update'),
+          ),
+        )
+      ],
+    );
+  }
+
+  _submit() async {
+    setState(() {
+      _error = '';
+      _loading = true;
+    });
+    final username = _usernameController.text.trim();
+    final password = _passwordController.text.trim();
+    if (username == '' || password == '') {
+      setState(() {
+        _error = 'Username or password can not be empty';
+      });
+      return;
+    }
+    try {
+      await JenkinsApi.updateApiToken(username, password);
+      context.toast('Token update successfully');
+      _usernameController.text = '';
+      _passwordController.text = '';
+    } catch (e) {
+      context.toast('Token update failed, try again');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
+    }
   }
 }

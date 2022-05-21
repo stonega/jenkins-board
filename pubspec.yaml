@@ -27,6 +27,8 @@ dependencies:
   local_notifier: ^0.1.4
   reorderables: ^0.4.2
   popover: ^0.2.6+3
+  cookie_jar: ^3.0.1
+  dio_cookie_manager: ^2.0.0
 
 dev_dependencies:
   freezed: ^2.0.3

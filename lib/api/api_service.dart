@@ -59,9 +59,7 @@ class ApiService {
     if (response.statusCode == 200) {
       return response.data;
     } else if (response.statusCode == 404) {
-      return {
-        
-      };
+      return {};
     }
   }
 
@@ -142,6 +140,14 @@ class ApiService {
       dio.options.headers["Authorization"] = "Basic $authCode";
     } else {
       dio.options.headers.remove('Authorization');
+    }
+  }
+
+  static setCsrf(String crumb) {
+    if (crumb != '') {
+      dio.options.headers["Jenkins-Crumb"] = crumb;
+    } else {
+      dio.options.headers.remove('Jenkins-Crumb');
     }
   }
 

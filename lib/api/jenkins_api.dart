@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:cookie_jar/cookie_jar.dart';
+import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:jenkins_board/api/api_service.dart';
 import 'package:jenkins_board/model/build_task.dart';
 import 'package:jenkins_board/model/queue_item.dart';
@@ -50,7 +53,7 @@ class JenkinsApi {
     final res = await ApiService.get('${job.url}api/json');
     List<Branch> branches = [];
     if (res['jobs'] != null) {
-      branches = [for (var j in res['jobs']) Branch.fromMap(j)];
+      branches = [for (final j in res['jobs']) Branch.fromMap(j)];
     }
     return branches;
   }
@@ -62,7 +65,7 @@ class JenkinsApi {
 
   static Future<List<QueueItem>> getQueue() async {
     final res = await ApiService.get('/queue/api/json');
-    return [for (var i in res['items']) QueueItem.fromMap(i)];
+    return [for (final i in res['items']) QueueItem.fromMap(i)];
   }
 
   static Future<String?> recentBuildUrl(
@@ -110,5 +113,31 @@ class JenkinsApi {
       ];
     }
     return [];
+  }
+
+  static Future<void> updateApiToken(String username, String password) async {
+    final data = {'newTokenName': 'Jenkins Board Token'};
+    final authorization = base64Encode("$username:$password".codeUnits);
+    final dio = Dio();
+    final cookieJar = CookieJar();
+    dio.interceptors.add(CookieManager(cookieJar));
+
+    final baseUrl = HiveBox.getBaseUrl();
+    dio.options.headers["Authorization"] = "Basic $authorization";
+    final crumbUrl = '${baseUrl}crumbIssuer/api/xml';
+    final crumbRes = (await dio.get(crumbUrl)).data;
+    RegExp exp = RegExp(r"<crumb>([0-9a-z])*");
+    final crumb = exp.stringMatch(crumbRes);
+    if (crumb == null) throw Error();
+    dio.options.headers["Jenkins-Crumb"] = crumb.replaceAll('<crumb>', '');
+    final result = await dio.post(
+        '$baseUrl/me/descriptorByName/jenkins.security.ApiTokenProperty/generateNewToken',
+        data: data);
+    if (result.data != null) {
+      final token = result.data['data']['tokenValue'];
+      ApiService.setToken(base64Encode('$username:$token'.codeUnits));
+    } else {
+      throw Error();
+    }
   }
 }

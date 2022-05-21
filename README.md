@@ -29,3 +29,7 @@ apt intall libnotify-dev
 # Fedora
 dnf install libnotify-devel
 ```
+```
+# create desktop entry
+
+```

@@ -3,37 +3,41 @@ import 'package:flutter/material.dart';
 import '../utils/extensions.dart';
 
 class InputWrapper extends StatelessWidget {
-  final String title;
+  final String? title;
   final Widget inputBox;
   final String? error;
   final double horizontalPadding;
+  final bool compact;
+
   const InputWrapper(
-      {required this.title,
+      {this.title,
       required this.inputBox,
       this.error,
       this.horizontalPadding = 30,
+      this.compact = false,
       Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-          EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 2),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: context.bodyText1
-                .copyWith(fontWeight: FontWeight.w600, fontSize: 15),
-          ),
-          const SizedBox(height: 10),
+          if (title != null)
+            Text(
+              title!,
+              style: context.bodyText1
+                  .copyWith(fontWeight: FontWeight.w600, fontSize: 15),
+            ),
+          if (title != null) const SizedBox(height: 10),
           ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 50),
+            constraints: BoxConstraints(minHeight: compact ? 40 : 50),
             child: Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+              padding: EdgeInsets.symmetric(
+                  horizontal: 12, vertical: compact ? 4 : 15),
               alignment: Alignment.centerLeft,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6),
@@ -41,7 +45,9 @@ class InputWrapper extends StatelessWidget {
                       width: 1,
                       color: error != null && error!.isNotEmpty
                           ? const Color(0xFFFF2210).withOpacity(0.5)
-                          : context.primaryColorLight),
+                          : compact
+                              ? context.accentColor
+                              : context.primaryColorLight),
                   color: context.primaryColorLight),
               child: inputBox,
             ),

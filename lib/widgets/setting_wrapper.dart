@@ -56,7 +56,7 @@ class SettingWrapper extends StatelessWidget {
                       ),
                     ),
                   InkWell(
-                    onTap: () =>  context.go('/'),
+                    onTap: () => context.go('/'),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: CircleAvatar(

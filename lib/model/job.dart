@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'job.freezed.dart';
 part 'job.g.dart';
+
 @freezed
 class Job with _$Job {
   factory Job({

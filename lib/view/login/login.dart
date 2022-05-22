@@ -222,7 +222,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       return;
     }
     HiveBox.saveBaseUrl(url);
-    print(url);
     _pageViewController.animateToPage(1,
         duration: const Duration(microseconds: 300), curve: Curves.easeIn);
   }

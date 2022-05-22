@@ -124,7 +124,7 @@ class JenkinsApi {
 
     final baseUrl = HiveBox.getBaseUrl();
     dio.options.headers["Authorization"] = "Basic $authorization";
-    final crumbUrl = '${baseUrl}crumbIssuer/api/xml';
+    final crumbUrl = '$baseUrl/crumbIssuer/api/xml';
     final crumbRes = (await dio.get(crumbUrl)).data;
     RegExp exp = RegExp(r"<crumb>([0-9a-z])*");
     final crumb = exp.stringMatch(crumbRes);

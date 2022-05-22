@@ -32,14 +32,13 @@ class QueueItem {
 
   factory QueueItem.fromMap(Map<String, dynamic> map) {
     return QueueItem(
-      buildable: map['buildable'],
-      cancelled: map['cancelled'] ?? false,
-      why: map['why'],
-      id: map['id'],
-      inQueueSince: map['inQueueSince'],
-      params: map['params'],
-      color: map['task']['color']
-    );
+        buildable: map['buildable'],
+        cancelled: map['cancelled'] ?? false,
+        why: map['why'],
+        id: map['id'],
+        inQueueSince: map['inQueueSince'],
+        params: map['params'],
+        color: map['task']['color']);
   }
 
   String toJson() => json.encode(toMap());

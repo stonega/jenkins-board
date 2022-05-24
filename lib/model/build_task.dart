@@ -42,7 +42,7 @@ class BuildTask extends Equatable {
       startTime: DateTime.fromMillisecondsSinceEpoch(
         map['startTime'],
       ),
-      buildNumber: map['buildNumber'],
+      buildNumber: map['buildNumber'] ?? 0,
       endTime: map['endTime'] == null
           ? null
           : DateTime.fromMillisecondsSinceEpoch(

@@ -23,7 +23,7 @@ dependencies:
   fluttertoast: ^8.0.8
   equatable: ^2.0.3
   intl: ^0.17.0
-  google_fonts: ^3.0.0
+  google_fonts: ^3.0.1
   local_notifier: ^0.1.4
   reorderables: ^0.4.2
   popover: ^0.2.6+3

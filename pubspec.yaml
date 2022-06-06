@@ -24,7 +24,7 @@ dependencies:
   equatable: ^2.0.3
   intl: ^0.17.0
   google_fonts: ^3.0.1
-  local_notifier: ^0.1.4
+  local_notifier: ^0.1.5
   reorderables: ^0.4.2
   popover: ^0.2.6+3
   cookie_jar: ^3.0.1

@@ -90,5 +90,4 @@ jobs:
         with:
           name: Jenkins-Board-Macos-Bundle
           path: |
-            build/macos/Build/Products/Release/Jenkins Board.app
             build/jenkins-board-macos-x86_64.dmg

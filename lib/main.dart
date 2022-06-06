@@ -7,11 +7,16 @@ import 'package:jenkins_board/router/router.dart';
 import 'package:jenkins_board/storage/hive_box.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:local_notifier/local_notifier.dart';
 
 void main() async {
   await Hive.initFlutter();
   await HiveBox.init();
   await ApiService.init();
+  await localNotifier.setup(
+    appName: 'Jenkins board',
+    shortcutPolicy: ShortcutPolicy.requireCreate,
+  );
   runApp(const ProviderScope(child: MyApp()));
 }
 

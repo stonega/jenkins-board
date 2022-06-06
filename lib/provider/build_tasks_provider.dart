@@ -73,9 +73,7 @@ class BuildTasksNotifier extends StateNotifier<List<BuildTask>> {
           subtitle: result.result,
           silent: false,
         );
-        final localNotifier = LocalNotifier.instance
-          ..setAppName('Jenkins Board');
-        await localNotifier.notify(notification);
+        notification.show();
       }
       final task = t.copyWith(
         status: status,

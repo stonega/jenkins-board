@@ -79,31 +79,18 @@ class JobPanel extends ConsumerWidget {
   }
 }
 
-class _JobItem extends ConsumerStatefulWidget {
+class _JobItem extends StatelessWidget {
   const _JobItem(this.branch, {required this.jobName, Key? key})
       : super(key: key);
   final Branch branch;
   final String jobName;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _JobItemState();
-}
-
-class _JobItemState extends ConsumerState<_JobItem> {
-  late bool _loadBuilding;
-
-  @override
-  initState() {
-    _loadBuilding = false;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Text(
-          widget.branch.name,
+          branch.name,
           style: context.headline6,
         ),
         const SizedBox(
@@ -112,7 +99,7 @@ class _JobItemState extends ConsumerState<_JobItem> {
         InkWell(
           onTap: () async {
             context.go('/home/build_detail');
-            final url = await JenkinsApi.recentBuildUrl(widget.branch.url);
+            final url = await JenkinsApi.recentBuildUrl(branch.url);
             if (url != null) {
               context.go('/home/build_detail', extra: url);
             } else {
@@ -121,41 +108,64 @@ class _JobItemState extends ConsumerState<_JobItem> {
                   icon: LineIcons.infoCircle);
             }
           },
-          child: (widget.branch.isRunning)
+          child: (branch.isRunning)
               ? const RunningWidget()
               : CircleAvatar(
                   radius: 6,
-                  backgroundColor: widget.branch.statusColor,
+                  backgroundColor: branch.statusColor,
                 ),
         ),
         const Spacer(),
         Material(
           color: Colors.transparent,
-          child: Builder(
-            builder: (context) {
-              if (_loadBuilding) {
-                return const Padding(
-                  padding: EdgeInsets.all(10),
-                  child: SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 1,
-                    ),
-                  ),
-                );
-              }
-              return IconButton(
-                splashRadius: 20,
-                icon: Icon(
-                  LineIcons.running,
-                  color: context.accentColor,
-                ),
-                onPressed: () => _onBuild(context),
-              );
-            },
+          child: _RunningButton(branch: branch, jobName: jobName),
+        ),
+      ],
+    );
+  }
+}
+
+class _RunningButton extends ConsumerStatefulWidget {
+  final Branch branch;
+  final String jobName;
+  const _RunningButton({required this.branch, required this.jobName, Key? key})
+      : super(key: key);
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => __RunningButtonState();
+}
+
+class __RunningButtonState extends ConsumerState<_RunningButton> {
+  late bool _loadBuilding;
+  @override
+  void initState() {
+    _loadBuilding = false;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IndexedStack(
+      index: _loadBuilding ? 0 : 1,
+      children: [
+        const Padding(
+          padding: EdgeInsets.all(10),
+          child: SizedBox(
+            height: 20,
+            width: 20,
+            child: CircularProgressIndicator(
+              strokeWidth: 1,
+            ),
           ),
         ),
+        IconButton(
+          splashRadius: 20,
+          icon: Icon(
+            LineIcons.running,
+            color: context.accentColor,
+          ),
+          onPressed: () => _onBuild(context),
+        )
       ],
     );
   }
@@ -172,6 +182,7 @@ class _JobItemState extends ConsumerState<_JobItem> {
       } else {
         showPopover(
           context: context,
+          direction: PopoverDirection.top,
           barrierColor: Colors.transparent,
           transitionDuration: const Duration(milliseconds: 150),
           bodyBuilder: (context) {
@@ -181,16 +192,8 @@ class _JobItemState extends ConsumerState<_JobItem> {
                   _RunBuildWidget(widget.branch, buildParams, widget.jobName),
             );
           },
-          shadow: const [
-            BoxShadow(
-                color: Colors.black12,
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(-1, 1))
-          ],
           onPop: () {},
-          direction: PopoverDirection.top,
-          arrowHeight: 15,
+          arrowHeight: 0,
           arrowWidth: 30,
         );
       }
@@ -220,20 +223,20 @@ class __RunBuildState extends ConsumerState<_RunBuildWidget> {
   final _buildParam = <String, dynamic>{};
   @override
   void initState() {
-    for (var param in widget.buildParams) {
+    super.initState();
+    for (final param in widget.buildParams) {
       _buildParam[param.name] = param.defautlValue;
     }
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 100,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: ListView(
+        shrinkWrap: true,
         children: [
-          ...[for (var p in widget.buildParams) _paramWidget(p)],
+          for (var p in widget.buildParams) _paramWidget(p),
           const SizedBox(
             height: 20,
           ),
@@ -314,7 +317,7 @@ Future _newBuild(
   final url = await JenkinsApi.newBuild(branch, params: buildParam);
   final buildNumber = await JenkinsApi.getNextBuildNumber(branch.url);
   final task = BuildTask(
-      name: jobName + '-' + branch.name,
+      name: '$jobName-${branch.name}',
       branchUrl: branch.url,
       buildNumber: buildNumber,
       buildUrl: url,

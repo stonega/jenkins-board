@@ -18,7 +18,6 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-        enableFeedback: false,
         elevation: MaterialStateProperty.resolveWith<double>((states) {
           return 0;
         }),
@@ -45,8 +44,8 @@ class CustomButton extends StatelessWidget {
           },
         ),
         animationDuration: Duration.zero,
-        shape: MaterialStateProperty.all<OutlinedBorder>(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         ),
       ),
       onPressed: onPressed,
@@ -67,7 +66,7 @@ class CustomButton extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
         ],
       ),
     );

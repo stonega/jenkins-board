@@ -2,19 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:jenkins_board/api/jenkins_api.dart';
 import 'package:jenkins_board/provider/jobs_provider.dart';
-import 'package:jenkins_board/storage/hive_box.dart';
-import 'package:jenkins_board/utils/extensions.dart';
 import 'package:jenkins_board/view/settings/build_detail.dart';
 import 'package:jenkins_board/view/settings/build_task.dart';
 import 'package:jenkins_board/view/settings/choose_jobs.dart';
 import 'package:jenkins_board/view/settings/settings.dart';
-import 'package:jenkins_board/widgets/build_task_button.dart';
-import 'package:jenkins_board/widgets/custom_button.dart';
 import 'package:jenkins_board/widgets/job_panel.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:jenkins_board/widgets/topbar.dart';
 import 'package:reorderables/reorderables.dart';
 
 enum SettingType { choose_jobs, settings, build_detail, build_tasks, undefined }
@@ -67,95 +61,11 @@ class HomeView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final jobs = ref.watch(jobsProvider);
-    final username = HiveBox.getUsername();
     return ListView(
       children: [
+        const Topbar(),
         Padding(
-          padding: const EdgeInsets.fromLTRB(30, 30, 30, 20),
-          child: Row(
-            children: [
-              Text('Hi $username', style: context.headline4),
-              const SizedBox(
-                width: 20,
-              ),
-              CustomButton(
-                onPressed: () {
-                  context.go('/home/choose_jobs');
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
-                    children: [
-                      Text(context.S.addJob),
-                      const Icon(
-                        LineIcons.plusCircle,
-                        size: 25,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const Spacer(),
-              const BuildTasksButton(),
-              const SizedBox(
-                width: 20,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: context.primaryColorLight,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: ref.read(jobsProvider.notifier).refresh,
-                      splashRadius: 20,
-                      icon: Icon(
-                        LineIcons.alternateRedo,
-                        color: context.primaryColorDark,
-                        size: 20,
-                      ),
-                      tooltip: context.S.refresh,
-                    ),
-                    Container(
-                      width: 2,
-                      height: 20,
-                      color: context.primaryColorDark,
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        context.go('/home/settings');
-                      },
-                      splashRadius: 20,
-                      icon: Icon(
-                        LineIcons.cog,
-                        color: context.primaryColorDark,
-                      ),
-                      tooltip: context.S.settings,
-                    ),
-                    Container(
-                      width: 2,
-                      height: 20,
-                      color: context.primaryColorDark,
-                    ),
-                    IconButton(
-                      onPressed: () async => await _logout(context),
-                      splashRadius: 20,
-                      icon: Icon(
-                        LineIcons.shareSquare,
-                        color: context.primaryColorDark,
-                      ),
-                      tooltip: context.S.logout,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(15, 15, 30, 15),
+          padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
           child: ReorderableWrap(
             onReorder: ref.read(jobsProvider.notifier).reOrder,
             spacing: 20,
@@ -165,10 +75,5 @@ class HomeView extends ConsumerWidget {
         ),
       ],
     );
-  }
-
-  Future _logout(BuildContext context) async {
-    await JenkinsApi.logout();
-    context.push('/');
   }
 }

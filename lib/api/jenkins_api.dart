@@ -36,7 +36,6 @@ class JenkinsApi {
   }
 
   static Future<List<JobGroup>> getAllJobs() async {
-    
     final res = await ApiService.get('/api/json');
     List<JobGroup> jobGroups = [];
     if (res['jobs'] != null) {
@@ -136,7 +135,9 @@ class JenkinsApi {
         data: data);
     if (result.data != null) {
       final token = result.data['data']['tokenValue'];
-      ApiService.setToken(base64Encode('$username:$token'.codeUnits));
+      final authCode = base64Encode('$username:$token'.codeUnits);
+      HiveBox.saveToken(authCode);
+      ApiService.setToken(authCode);
     } else {
       throw Error();
     }

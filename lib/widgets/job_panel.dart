@@ -57,6 +57,9 @@ class JobPanel extends ConsumerWidget {
                       return _JobItem(
                         data[index],
                         jobName: job.name,
+                        onChange: (value) {
+                          if (value) ref.refresh(branchesProvider(job));
+                        },
                       );
                     },
                   ),
@@ -80,10 +83,12 @@ class JobPanel extends ConsumerWidget {
 }
 
 class _JobItem extends StatelessWidget {
-  const _JobItem(this.branch, {required this.jobName, Key? key})
+  const _JobItem(this.branch,
+      {required this.jobName, required this.onChange, Key? key})
       : super(key: key);
   final Branch branch;
   final String jobName;
+  final ValueChanged onChange;
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +123,11 @@ class _JobItem extends StatelessWidget {
         const Spacer(),
         Material(
           color: Colors.transparent,
-          child: _RunningButton(branch: branch, jobName: jobName),
+          child: _RunningButton(
+            branch: branch,
+            jobName: jobName,
+            onChange: onChange,
+          ),
         ),
       ],
     );
@@ -128,7 +137,12 @@ class _JobItem extends StatelessWidget {
 class _RunningButton extends ConsumerStatefulWidget {
   final Branch branch;
   final String jobName;
-  const _RunningButton({required this.branch, required this.jobName, Key? key})
+  final ValueChanged onChange;
+  const _RunningButton(
+      {required this.branch,
+      required this.jobName,
+      required this.onChange,
+      Key? key})
       : super(key: key);
 
   @override
@@ -180,7 +194,7 @@ class __RunningButtonState extends ConsumerState<_RunningButton> {
       if (buildParams.isEmpty) {
         await _newBuild(context, ref, widget.branch, widget.jobName);
       } else {
-        showPopover(
+        final result = await showPopover<bool?>(
           context: context,
           direction: PopoverDirection.top,
           barrierColor: Colors.transparent,
@@ -196,6 +210,9 @@ class __RunningButtonState extends ConsumerState<_RunningButton> {
           arrowHeight: 0,
           arrowWidth: 30,
         );
+        await Future.delayed(const Duration(milliseconds: 200));
+        if (result != null && result) widget.onChange(true);
+        // ref.read(jobsProvider.notifier).refresh();
       }
     } catch (e) {
       context.toast('Build Not started, please try again');
@@ -245,10 +262,11 @@ class __RunBuildState extends ConsumerState<_RunBuildWidget> {
               try {
                 await _newBuild(context, ref, widget.branch, widget.jobName,
                     buildParam: _buildParam);
+                Navigator.of(context).pop(true);
               } catch (e) {
                 context.toast('Build Not started, please try again');
+                context.pop();
               }
-              context.pop();
             },
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -324,5 +342,4 @@ Future _newBuild(
       startTime: DateTime.now());
   ref.read(buildTasksProvider.notifier).add(task);
   context.toast('Build started, good luck!', icon: LineIcons.running);
-  ref.read(jobsProvider.notifier).refresh();
 }

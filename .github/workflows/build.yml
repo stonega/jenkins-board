@@ -22,10 +22,8 @@ jobs:
       - run: flutter build linux
       - run: make deb
       - run: make tar
-      - run: wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /usr/local/bin/appimagetool
-      - run: chmod +x /usr/local/bin/appimagetool
-      - run: pip3 install appimage-builder
-      - run: make appimage
+      - run: sudo pip3 install appimage-builder
+      - run: sudo make appimage
       - uses: actions/upload-artifact@v2
         with:
           name: Jenkins-Board-Linux-Bundle

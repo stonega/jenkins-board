@@ -1,5 +1,5 @@
 # appimage-builder recipe see https://appimage-builder.readthedocs.io for details
-version: 1
+version: 2
 script:
   - rm -rf AppDir || true
   - cp -r build/linux/x64/release/bundle AppDir
@@ -11,7 +11,7 @@ AppDir:
     id: me.stonegate.jenkins_board
     name: Jenkins Board
     icon: logo
-    version: 0.1.0
+    version: 0.5.2
     exec: jenkins_board
     exec_args: $@
   apt:

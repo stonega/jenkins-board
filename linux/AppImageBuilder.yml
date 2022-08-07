@@ -18,18 +18,18 @@ AppDir:
     arch: amd64
     allow_unauthenticated: true
     sources:
-      - sourceline: deb https://bd.archive.ubuntu.com/ubuntu/ jammy main restricted
-      - sourceline: deb https://bd.archive.ubuntu.com/ubuntu/ jammy-updates main restricted
-      - sourceline: deb https://bd.archive.ubuntu.com/ubuntu/ jammy universe
-      - sourceline: deb https://bd.archive.ubuntu.com/ubuntu/ jammy-updates universe
-      - sourceline: deb https://bd.archive.ubuntu.com/ubuntu/ jammy multiverse
-      - sourceline: deb https://bd.archive.ubuntu.com/ubuntu/ jammy-updates multiverse
+      - sourceline: deb http://bd.archive.ubuntu.com/ubuntu/ jammy main restricted
+      - sourceline: deb http://bd.archive.ubuntu.com/ubuntu/ jammy-updates main restricted
+      - sourceline: deb http://bd.archive.ubuntu.com/ubuntu/ jammy universe
+      - sourceline: deb http://bd.archive.ubuntu.com/ubuntu/ jammy-updates universe
+      - sourceline: deb http://bd.archive.ubuntu.com/ubuntu/ jammy multiverse
+      - sourceline: deb http://bd.archive.ubuntu.com/ubuntu/ jammy-updates multiverse
       - sourceline:
-          deb https://bd.archive.ubuntu.com/ubuntu/ jammy-backports main
+          deb http://bd.archive.ubuntu.com/ubuntu/ jammy-backports main
           restricted universe multiverse
-      - sourceline: deb https://security.ubuntu.com/ubuntu jammy-security main restricted
-      - sourceline: deb https://security.ubuntu.com/ubuntu jammy-security universe
-      - sourceline: deb https://security.ubuntu.com/ubuntu jammy-security multiverse
+      - sourceline: deb http://security.ubuntu.com/ubuntu jammy-security main restricted
+      - sourceline: deb http://security.ubuntu.com/ubuntu jammy-security universe
+      - sourceline: deb http://security.ubuntu.com/ubuntu jammy-security multiverse
     include:
       - libkeybinder-3.0-0
     exclude: 

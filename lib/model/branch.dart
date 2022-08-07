@@ -5,16 +5,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:jenkins_board/model/build_param.dart';
 
-enum BuildStatus {
-  aborted,
-  aborted_anime,
-  notbuilt,
-  blue,
-  blue_anime,
-  red,
-  red_anime
-}
-
 class Branch {
   final String url;
   final String name;
@@ -31,19 +21,18 @@ class Branch {
     };
   }
 
-  BuildStatus get lastBuild => BuildStatus.values.byName(color);
   Color get statusColor {
-    switch (lastBuild) {
-      case BuildStatus.aborted:
+    switch (color) {
+      case 'aborted':
         return Colors.red;
-      case BuildStatus.blue:
+      case 'blue':
         return Colors.green;
       default:
         return Colors.yellow;
     }
   }
 
-  bool get isRunning => lastBuild.name.contains('anime');
+  bool get isRunning => color.contains('anime');
 
   factory Branch.fromMap(Map<String, dynamic> map) {
     // final params = map['property'][1]?['parameterDefinitions'] ?? [];

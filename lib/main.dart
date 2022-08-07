@@ -5,8 +5,8 @@ import 'package:jenkins_board/api/api_service.dart';
 import 'package:jenkins_board/provider/app_state_provider.dart';
 import 'package:jenkins_board/router/router.dart';
 import 'package:jenkins_board/storage/hive_box.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:local_notifier/local_notifier.dart';
 
 void main() async {
@@ -32,6 +32,7 @@ class MyApp extends ConsumerWidget {
       theme: appState.themeData,
       themeMode: appState.themeMode,
       routeInformationParser: router.routeInformationParser,
+      routeInformationProvider: router.routeInformationProvider,
       routerDelegate: router.routerDelegate,
       localizationsDelegates: const [
         AppLocalizations.delegate,

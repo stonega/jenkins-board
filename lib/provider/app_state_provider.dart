@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jenkins_board/model/app_state.dart';
+import 'package:jenkins_board/storage/hive_box.dart';
 
 final appStateProvider = StateNotifierProvider<AppStateNotifier, AppState>(
     (ref) => AppStateNotifier());
@@ -26,14 +27,21 @@ class AppStateNotifier extends StateNotifier<AppState> {
     );
     const locale = Locale('en', 'US');
     const authed = false;
+    final panelHeight = HiveBox.getJobPanelHeight();
     return AppState(
         themeData: themeData,
         themeMode: ThemeMode.system,
         locale: locale,
-        authed: authed);
+        authed: authed,
+        jobPanelHeight: panelHeight);
   }
 
   setLocale(Locale locale) {
     state = state.copyWith(locale: locale);
+  }
+
+  setJobPanelHeight(double height) {
+    state = state.copyWith(jobPanelHeight: height);
+    HiveBox.saveJobPanelHeight(height);
   }
 }

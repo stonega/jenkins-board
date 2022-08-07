@@ -6,8 +6,8 @@ import 'package:jenkins_board/model/branch.dart';
 import 'package:jenkins_board/model/build_param.dart';
 import 'package:jenkins_board/model/build_task.dart';
 import 'package:jenkins_board/model/job.dart';
+import 'package:jenkins_board/provider/app_state_provider.dart';
 import 'package:jenkins_board/provider/build_tasks_provider.dart';
-import 'package:jenkins_board/provider/jobs_provider.dart';
 import 'package:jenkins_board/utils/extensions.dart';
 import 'package:jenkins_board/widgets/custom_button.dart';
 import 'package:jenkins_board/widgets/running_widget.dart';
@@ -24,8 +24,9 @@ class JobPanel extends ConsumerWidget {
   });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appState = ref.watch(appStateProvider);
     return Container(
-      height: 200,
+      height: appState.jobPanelHeight,
       width: _calculateWidth(context),
       decoration: BoxDecoration(
           color: context.primaryColorLight,

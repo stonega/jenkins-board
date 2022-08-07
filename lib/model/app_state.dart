@@ -9,5 +9,6 @@ class AppState with _$AppState {
       {required ThemeData themeData,
       required Locale locale,
       required ThemeMode themeMode,
-      required bool authed}) = _AppState;
+      required bool authed,
+      required double jobPanelHeight}) = _AppState;
 }

@@ -59,6 +59,46 @@ class SettingsPage extends ConsumerWidget {
               const SizedBox(
                 height: 20,
               ),
+              Text(
+                'Job panel height',
+                style: context.headline5,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Radio<double>(
+                    groupValue: appState.jobPanelHeight,
+                    value: 200,
+                    activeColor: context.accentColor,
+                    onChanged: (value) {
+                      ref
+                          .read(appStateProvider.notifier)
+                          .setJobPanelHeight(200);
+                    },
+                  ),
+                  const Text('Medium')
+                ],
+              ),
+              Row(
+                children: [
+                  Radio<double>(
+                    groupValue: appState.jobPanelHeight,
+                    value: 400,
+                    activeColor: context.accentColor,
+                    onChanged: (vlaue) {
+                      ref
+                          .read(appStateProvider.notifier)
+                          .setJobPanelHeight(400);
+                    },
+                  ),
+                  const Text('High')
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               Text('Update token', style: context.headline5),
               const SizedBox(
                 height: 10,

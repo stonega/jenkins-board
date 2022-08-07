@@ -23,7 +23,11 @@ jobs:
       - run: make deb
       - run: make tar
       - run: sudo pip3 install appimage-builder
-      - run: sudo make appimage
+      # - run: sudo make appimage
+      - uses: AppImageCrafters/build-appimage-action@master
+        with:
+          recipe: linux/AppImageBuilder.yml
+      - run: mv Jenkins\ Board-*-x86_64.AppImage build/jenkins-board-linux-x86_64.AppImage
       - uses: actions/upload-artifact@v2
         with:
           name: Jenkins-Board-Linux-Bundle

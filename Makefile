@@ -26,11 +26,11 @@ tar:
 		&& rm -rf $(TEMP_DIR)
 
 appimage:
-				 appimage-builder --recipe linux/AppImageBuilder.yml\
-				 && mv Jenkins\ Board-*-x86_64.AppImage build/jenkins-board-linux-x86_64.AppImage
+		appimage-builder --recipe linux/AppImageBuilder.yml\
+		&& mv Jenkins\ Board-*-x86_64.AppImage build/jenkins-board-linux-x86_64.AppImage
 
-aursrcinfo:
-					 docker run -e EXPORT_SRC=1 -v ${PWD}/aur-struct:/pkg -v ${MIRRORLIST}:/etc/pacman.d/mirrorlist:ro whynothugo/makepkg
+#aursrcinfo:
+# 		docker run -e EXPORT_SRC=1 -v ${PWD}/aur-struct:/pkg -v ${MIRRORLIST}:/etc/pacman.d/mirrorlist:ro whynothugo/makepkg
 
 # publishaur: 
 # 					 echo '[Warning!]: you need SSH paired with AUR'\
@@ -42,16 +42,16 @@ aursrcinfo:
 # 					 && git commit -m "${MSG}"\
 # 					 && git push
 
-innoinstall:
-						powershell curl -o build\installer.exe http://files.jrsoftware.org/is/6/innosetup-${INNO_VERSION}.exe
-		 				powershell build\installer.exe /verysilent /allusers /dir=build\iscc
+# innoinstall:
+# 		powershell curl -o build\installer.exe http://files.jrsoftware.org/is/6/innosetup-${INNO_VERSION}.exe
+# 		powershell build\installer.exe /verysilent /allusers /dir=build\iscc
 
-inno:
-		 powershell build\iscc\iscc.exe windows\windows-setup-creator.iss
+# inno:
+# 		powershell build\iscc\iscc.exe windows\windows-setup-creator.iss
 
-choco:
-			powershell cp build\installer\jenkins-board-windows-x86_64-setup.exe windows\choco-struct\tools
-			powershell choco pack windows\choco-struct\jenkins_board.nuspec  --outputdirectory build
+# choco:
+# 		powershell cp build\installer\jenkins-board-windows-x86_64-setup.exe windows\choco-struct\tools
+# 		powershell choco pack windows\choco-struct\jenkins_board.nuspec  --outputdirectory build
 
 gensums:
-				sh -c gensums.sh
+		sh -c gensums.sh

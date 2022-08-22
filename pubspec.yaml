@@ -23,7 +23,7 @@ dependencies:
   url_launcher: ^6.1.5
   line_icons: ^2.0.1
   fluttertoast: ^8.0.8
-  equatable: ^2.0.3
+  equatable: ^2.0.5
   intl: ^0.17.0
   google_fonts: ^3.0.1
   local_notifier: ^0.1.5

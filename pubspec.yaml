@@ -20,7 +20,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   dio: ^4.0.4
-  url_launcher: ^6.1.5
+  url_launcher: ^6.1.6
   line_icons: ^2.0.1
   fluttertoast: ^8.0.8
   equatable: ^2.0.3

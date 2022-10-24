@@ -22,7 +22,7 @@ dependencies:
   dio: ^4.0.4
   url_launcher: ^6.1.6
   line_icons: ^2.0.1
-  fluttertoast: ^8.0.8
+  fluttertoast: ^8.1.1
   equatable: ^2.0.3
   intl: ^0.17.0
   google_fonts: ^3.0.1

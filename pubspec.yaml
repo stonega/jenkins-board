@@ -28,7 +28,7 @@ dependencies:
   google_fonts: ^3.0.1
   local_notifier: ^0.1.5
   reorderables: ^0.5.0
-  popover: ^0.2.6+3
+  popover: ^0.2.7
   cookie_jar: ^3.0.1
   dio_cookie_manager: ^2.0.0
   custom_pop_up_menu: ^1.2.4

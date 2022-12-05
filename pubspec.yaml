@@ -34,7 +34,7 @@ dependencies:
   custom_pop_up_menu: ^1.2.4
 
 dev_dependencies:
-  freezed: ^2.2.1
+  freezed: ^2.3.0
   json_serializable: ^6.5.4
   build_runner: ^2.3.2
   flutter_test:

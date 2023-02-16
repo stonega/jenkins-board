@@ -6,7 +6,7 @@ import 'package:jenkins_board/view/login/login.dart';
 
 final router = GoRouter(
   routes: [
-    GoRoute(path: '/', redirect: (_) => '/home/undefined'),
+    GoRoute(path: '/', redirect: (_, __) => '/home/undefined'),
     GoRoute(
       path: '/home/:type',
       pageBuilder: (context, state) {
@@ -29,16 +29,11 @@ final router = GoRouter(
       builder: (context, state) => const LoginPage(),
     ),
   ],
-  redirect: (state) {
+  redirect: (_, state) {
     final token = HiveBox.getToken();
-    final loginloc = state.namedLocation('login');
-    final loggingIn = state.subloc == loginloc;
+    final loggingIn = state.subloc == 'login';
     if (token == '') {
-      return loggingIn
-          ? null
-          : state.namedLocation(
-              'login',
-            );
+      return loggingIn ? null : '/login';
     }
     return null;
   },

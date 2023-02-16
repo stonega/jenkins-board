@@ -14,8 +14,6 @@ class ChooseJobsPage extends ConsumerWidget {
     return JenkinsApi.getAllJobs();
   });
 
-  final ScrollController _controller = ScrollController();
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final jobGroups = ref.watch(groupsProvider);
@@ -28,50 +26,42 @@ class ChooseJobsPage extends ConsumerWidget {
           return Center(
             child: SizedBox(
               width: 600,
-              height: double.infinity,
-              child: ListView(
-                controller: _controller,
-                children: [
+              child: CustomScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: [
                   for (var g in groups)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        if (index == 0) {
+                          return Text(
                             g.name,
                             style: context.headline5.copyWith(
                                 color: context.accentColor,
                                 fontWeight: FontWeight.bold),
-                          ),
-                          ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: g.jobs.length,
-                            addAutomaticKeepAlives: false,
-                            itemBuilder: (context, index) {
-                              final selected = jobs.contains(g.jobs[index]);
-                              return SelectJob(
-                                g.jobs[index],
-                                onTap: () {
-                                  if (selected) {
-                                    ref
-                                        .read(jobsProvider.notifier)
-                                        .remove(g.jobs[index]);
-                                  } else {
-                                    ref
-                                        .read(jobsProvider.notifier)
-                                        .add(g.jobs[index]);
-                                  }
-                                },
-                                selected: selected,
-                              );
-                            },
-                          ),
-                        ],
-                      ),
+                          );
+                        }
+                        final selected = jobs.contains(g.jobs[index - 1]);
+                        return SelectJob(
+                          g.jobs[index - 1],
+                          onTap: () {
+                            if (selected) {
+                              ref
+                                  .read(jobsProvider.notifier)
+                                  .remove(g.jobs[index - 1]);
+                            } else {
+                              ref
+                                  .read(jobsProvider.notifier)
+                                  .add(g.jobs[index - 1]);
+                            }
+                          },
+                          selected: selected,
+                        );
+                      }, childCount: g.jobs.length + 1),
                     ),
-                  const SizedBox(
-                    height: 50,
+                  const SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 20,
+                    ),
                   )
                 ],
               ),

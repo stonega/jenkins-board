@@ -175,14 +175,14 @@ packages:
       name: dio
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.6"
+    version: "5.0.1"
   dio_cookie_manager:
     dependency: "direct main"
     description:
       name: dio_cookie_manager
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.1.1"
   equatable:
     dependency: "direct main"
     description:

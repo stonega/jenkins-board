@@ -208,7 +208,7 @@ packages:
       sha256: "326f2940d2dc48428350615b53cbda6904934e0900fbf791d36be0c72e05e39f"
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.3"
+    version: "2.1.4"
   equatable:
     dependency: "direct main"
     description:

@@ -13,8 +13,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter 
   cupertino_icons: ^1.0.5
-  flutter_riverpod: ^2.3.6
-  go_router: ^6.5.7
+  flutter_riverpod: ^2.3.2
+  go_router: ^10.0.0
   state_notifier: ^0.7.2
   freezed_annotation: ^2.1.0
   hive: ^2.2.3
@@ -22,24 +22,24 @@ dependencies:
   dio: ^5.1.1
   url_launcher: ^6.1.10
   line_icons: ^2.0.1
-  fluttertoast: ^8.2.1
+  fluttertoast: ^8.2.2
   equatable: ^2.0.3
   intl: ^0.17.0
-  google_fonts: ^4.0.3
+  google_fonts: ^4.0.4
   local_notifier: ^0.1.5
   reorderables: ^0.6.0
   popover: ^0.2.8+1
   cookie_jar: ^3.0.1
-  dio_cookie_manager: ^2.1.3
+  dio_cookie_manager: ^2.1.4
   custom_pop_up_menu: ^1.2.4
 
 dev_dependencies:
-  freezed: ^2.3.2
-  json_serializable: ^6.6.1
+  freezed: ^2.4.1
+  json_serializable: ^6.6.2
   build_runner: ^2.3.3
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.1
+  flutter_lints: ^2.0.2
   hive_generator: ^2.0.0
 
 flutter:

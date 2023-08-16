@@ -274,7 +274,7 @@ packages:
       sha256: b3c3a8a9714b7f88dd2a41e1efbc47f76d620b06ab427c62ae7bc82298cd7dbb
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.2"
+    version: "2.3.6"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -636,7 +636,7 @@ packages:
       sha256: b0fbf7927333c5c318f7e2c22c8b4fd2542ba294de0373e80ecdb34e0dcd8dc4
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.2"
+    version: "2.3.6"
   shelf:
     dependency: transitive
     description:
